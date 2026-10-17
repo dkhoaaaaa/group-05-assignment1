@@ -1,0 +1,15 @@
+# Bỏ qua thư mục build tự sinh của Maven (đảm bảo không nộp nhầm file target/)
+target/
+automation/target/
+
+# Bỏ qua các file rác của Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+
+# Bỏ qua cấu hình cá nhân của phần mềm IDE (VS Code, IntelliJ)
+.idea/
+.vscode/
+*.iml
+.github
