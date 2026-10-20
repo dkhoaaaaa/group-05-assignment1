@@ -17,7 +17,7 @@ public abstract class WebTestBase {
     protected String baseUrl;
 
     @BeforeEach
-    void openBrowser() {
+    public void openBrowser() {
         baseUrl = System.getProperty("baseUrl", "https://www.saucedemo.com");
         String browser = System.getProperty("browser", "chrome")
                 .toLowerCase(Locale.ROOT);
