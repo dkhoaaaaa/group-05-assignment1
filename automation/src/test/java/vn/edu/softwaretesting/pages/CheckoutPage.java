@@ -53,17 +53,22 @@ public final class CheckoutPage {
 
     /** Đăng nhập và tạo giỏ hàng có 1 sản phẩm (Backpack) để test độc lập. */
     public CheckoutPage openWithBackpack(String baseUrl) {
-        return openWithItems(baseUrl, false);
+        return openWithItems(baseUrl, "standard_user", false);
+    }
+
+    /** Same one-item cart as openWithBackpack, signed in as another SauceDemo user. */
+    public CheckoutPage openWithBackpackAs(String baseUrl, String username) {
+        return openWithItems(baseUrl, username, false);
     }
 
     /** Đăng nhập và tạo giỏ hàng có 2 sản phẩm (Backpack & Bike Light) để test tính tổng tiền. */
     public CheckoutPage openWithBackpackAndBikeLight(String baseUrl) {
-        return openWithItems(baseUrl, true);
+        return openWithItems(baseUrl, "standard_user", true);
     }
 
-    private CheckoutPage openWithItems(String baseUrl, boolean includeBikeLight) {
+    private CheckoutPage openWithItems(String baseUrl, String username, boolean includeBikeLight) {
         LoginResult login = new LoginPage(driver, baseUrl).open()
-                .login("standard_user", "secret_sauce");
+                .login(username, "secret_sauce");
         if (!login.accepted()) {
             throw new IllegalStateException("Không thể đăng nhập để thực hiện checkout: " + login.message());
         }
@@ -128,6 +133,19 @@ public final class CheckoutPage {
         return driver.getCurrentUrl();
     }
 
+    public CheckoutPage cancelInformationStep() {
+        wait.until(ExpectedConditions.elementToBeClickable(CANCEL_BUTTON)).click();
+        wait.until(ExpectedConditions.urlContains("cart.html"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(CHECKOUT_BUTTON));
+        return this;
+    }
+
+    public CheckoutPage cancelOverview() {
+        wait.until(ExpectedConditions.elementToBeClickable(CANCEL_BUTTON)).click();
+        wait.until(ExpectedConditions.urlContains("inventory.html"));
+        return this;
+    }
+
     /** Đợi và xác nhận đã sang trang Overview thành công. */
     public CheckoutPage waitForOverview() {
         try {
@@ -145,19 +163,6 @@ public final class CheckoutPage {
                     + "; ảnh chụp màn hình: target/checkout-overview-timeout.png", exception);
         }
         wait.until(ExpectedConditions.visibilityOfElementLocated(SUBTOTAL));
-        return this;
-    }
-
-    /** Hủy ở bước nhập thông tin. */
-    public CheckoutPage cancelInformationStep() {
-        wait.until(ExpectedConditions.elementToBeClickable(CANCEL_BUTTON)).click();
-        return this;
-    }
-
-    /** Hủy ở trang Overview (quay lại trang inventory). */
-    public CheckoutPage cancelOverview() {
-        wait.until(ExpectedConditions.elementToBeClickable(CANCEL_BUTTON)).click();
-        wait.until(ExpectedConditions.urlContains("inventory.html"));
         return this;
     }
 
@@ -222,8 +227,8 @@ public final class CheckoutPage {
         input.clear();
         if (!value.isEmpty()) {
             input.sendKeys(value);
+            wait.until(ExpectedConditions.attributeToBe(locator, "value", value));
         }
-        wait.until(ExpectedConditions.attributeToBe(locator, "value", value));
     }
 
     private BigDecimal moneyFrom(By locator) {

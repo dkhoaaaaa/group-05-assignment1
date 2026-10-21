@@ -1,8 +1,15 @@
 package vn.edu.softwaretesting.tests;
 
+<<<<<<< HEAD
+=======
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+>>>>>>> e89a8a08a1202ba392669b112ab6f365f9af711d
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,8 +18,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+<<<<<<< HEAD
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+=======
+import org.junit.jupiter.params.provider.CsvSource;
+>>>>>>> e89a8a08a1202ba392669b112ab6f365f9af711d
 
 import vn.edu.softwaretesting.core.WebTestBase;
 import vn.edu.softwaretesting.pages.CheckoutPage;
@@ -27,21 +38,54 @@ class CheckoutTest extends WebTestBase {
         checkout = new CheckoutPage(driver);
     }
 
-    static Stream<Arguments> requiredInformationCases() {
-        return Stream.of(
-                Arguments.of("TC-CHK-01", "", "", "", "Error: First Name is required"),
-                Arguments.of("TC-CHK-02", "Ada", "", "10101", "Error: Last Name is required"),
-                Arguments.of("TC-CHK-03", "Ada", "Lovelace", "", "Error: Postal Code is required")
-        );
+    @Test
+    @DisplayName("TC-CHK-01: full information moves to checkout overview")
+    void fullInformationMovesToOverview() {
+        checkout.openWithBackpack(baseUrl)
+                .continueWith("An", "Nguyen", "700000")
+                .waitForOverview();
+        assertTrue(checkout.currentUrl().endsWith("checkout-step-two.html"),
+                () -> "TC-CHK-01 got URL: " + checkout.currentUrl());
     }
 
-    @ParameterizedTest(name = "{0}: empty required field shows the expected validation")
-    @MethodSource("requiredInformationCases")
-    void missingRequiredInformationShowsError(String id, String first, String last,
-                                               String postal, String expectedError) {
-        checkout.openWithBackpack(baseUrl);
-        checkout.continueWith(first, last, postal);
-        assertEquals(expectedError, checkout.errorMessage());
+    @ParameterizedTest(name = "{0}: first=''{1}'', last=''{2}'', postal=''{3}'' -> {4}")
+    @DisplayName("TC-CHK-02: missing information shows the expected error")
+    @CsvSource({
+        "TC-CHK-02.1, '', Nguyen, 700000, Error: First Name is required",
+        "TC-CHK-02.2, An, '',     700000, Error: Last Name is required",
+        "TC-CHK-02.3, An, Nguyen, '',     Error: Postal Code is required",
+        "TC-CHK-02.4, '', '',     '',     Error: First Name is required",
+        "TC-CHK-02.5, An, '',     '',     Error: Last Name is required"
+    })
+    void missingInformationShowsError(String id, String first, String last,
+                                      String postal, String expectedError) {
+        checkout.openWithBackpack(baseUrl).continueWith(first, last, postal);
+        assertAll(
+                () -> assertEquals(expectedError, checkout.errorMessage(), id),
+                () -> assertTrue(checkout.currentUrl().endsWith("checkout-step-one.html"),
+                        () -> id + " should stay on step one, got: " + checkout.currentUrl()));
+    }
+
+    @Test
+    @DisplayName("TC-CHK-03: cancel on information step returns to cart and keeps the item")
+    void cancelInformationStepReturnsToCart() {
+        checkout.openWithBackpack(baseUrl).cancelInformationStep();
+        assertAll(
+                () -> assertTrue(checkout.currentUrl().endsWith("cart.html"),
+                        () -> "TC-CHK-03 got URL: " + checkout.currentUrl()),
+                () -> assertTrue(checkout.cartContainsBackpack(),
+                        "Sauce Labs Backpack should remain in the cart"),
+                () -> assertEquals("1", checkout.cartBadgeCount()));
+    }
+
+    @Test
+    @Tag("known-bug")
+    @DisplayName("TC-CHK-01 [BUG-03]: problem_user can fill information and continue")
+    void problemUserCanFillInformation() {
+        checkout.openWithBackpackAs(baseUrl, "problem_user");
+        assertDoesNotThrow(() -> checkout.continueWith("An", "Nguyen", "700000"),
+                "BUG-03: Last Name does not keep the typed text for problem_user");
+        checkout.waitForOverview();
     }
 
     @Test
