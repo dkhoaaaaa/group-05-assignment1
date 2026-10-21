@@ -26,7 +26,7 @@
 \usepackage{makecell}
 \usepackage{tabularx}
 
-\graphicspath{{../evidence/}{../evidence/FR-02/}{../evidence/FR-04/}{../evidence/NV1/}{../evidence/NV4/}{../evidence/P1/}}
+\graphicspath{{../evidence/}{../evidence/FR-01/}{../evidence/FR-02/}{../evidence/FR-03/}{../evidence/FR-04/}{../evidence/Setup/}}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -252,8 +252,8 @@ Sau khi cài Selenium Manager tự tải driver tương thích, lệnh \texttt{m
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55\textwidth]{NV1-Chrome-Version.png}
-\caption{Bằng chứng phiên bản Chrome dùng để thực thi NV1 (evidence/NV1/NV1-Chrome-Version.png).}
+\includegraphics[width=0.55\textwidth]{Chrome-Version.png}
+\caption{Bằng chứng phiên bản Chrome dùng để thực thi NV1 (evidence/Setup/Chrome-Version.png).}
 \label{fig:nv1-chrome}
 \end{figure}
 
@@ -427,8 +427,8 @@ Một số hình ảnh bằng chứng tiêu biểu cho từng nhóm yêu cầu �
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.55\textwidth]{TC-CHK-04-overview.png}
-\caption{Bằng chứng thực thi TC-CHK-04 -- trang Checkout Overview hiển thị đúng tổng tiền và thuế (evidence/NV4/TC-CHK-04-overview.png).}
+\includegraphics[width=0.55\textwidth]{TC-UC-04.png}
+\caption{Bằng chứng thực thi TC-CHK-04 (TC-UC-04) -- trang Checkout Overview hiển thị đúng tổng tiền và thuế (evidence/FR-03/TC-UC-04.png).}
 \label{fig:chk04}
 \end{figure}
 
@@ -500,7 +500,7 @@ Tiền điều kiện & Đăng nhập bằng \texttt{problem\_user} / \texttt{se
 Bước tái hiện & 1. Nhấn Checkout; 2. Nhập First Name = An; 3. Click vào ô Last Name, gõ ``Nguyen'' \\
 Kết quả mong đợi & Ô Last Name hiển thị ``Nguyen'', ô First Name giữ nguyên ``An'' (FR-03.1) \\
 Kết quả thực tế & Ô Last Name vẫn trống; mỗi ký tự gõ vào thay thế toàn bộ nội dung ô First Name. Không thể nhập Last Name nên không thể sang \texttt{checkout-step-two.html} \\
-Bằng chứng & \texttt{evidence/P1/BUG-03.mp4}, \texttt{evidence/P1/BUG-03.png} \\
+Bằng chứng & \texttt{evidence/FR-03/BUG-03.mp4}, \texttt{evidence/FR-03/BUG-03.png} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -701,11 +701,11 @@ NFR-01 & Performance & 1 & 1 & 0 & 1 & BUG-01 \\
 \toprule
 \textbf{Đường dẫn} & \textbf{Nội dung} \\
 \midrule
-\texttt{evidence/NV1/} & Ảnh chụp màn hình NV1: phiên bản Chrome, phiên bản Java, trước/sau khi thêm sản phẩm. \\
+\texttt{evidence/Setup/} & Ảnh chụp màn hình NV1: phiên bản Chrome, phiên bản Java, trước/sau khi thêm sản phẩm. \\
+\texttt{evidence/FR-01/} & Ảnh 8 test case đăng nhập (TC-LOGIN-DT1--DT8) và ảnh log đăng nhập. \\
 \texttt{evidence/FR-02/} & Ảnh kết quả thực thi FR-02 (giỏ hàng) sau đợt chạy. \\
-\texttt{evidence/FR-04/} & Ảnh 8 test case FR-04 (EP1--EP5, BVA1--BVA3), ảnh TC-NFR-01, log đo hiệu năng và video BUG-01. \\
-\texttt{evidence/NV4/} & Ảnh các test case FR-03 của NV4: TC-CHK-04 (overview/finish), TC-CHK-05, TC-CHK-06, TC-CHK-07. \\
-\texttt{evidence/P1/} & Ảnh 7 test case FR-03 phần 1 (TC-CHK-01, 02.1--02.5, 03) và bằng chứng BUG-03. \\
+\texttt{evidence/FR-04/} & Ảnh 8 test case FR-04 (TC-SORT-EP1--EP8), ảnh TC-NFR-01, log đo hiệu năng và video BUG-01. \\
+\texttt{evidence/FR-03/} & Ảnh 11 test case FR-03 (TC-UC-01, 02.1--02.5, 03--07) và bằng chứng BUG-03. \\
 \bottomrule
 \end{tabular}
 \end{table}

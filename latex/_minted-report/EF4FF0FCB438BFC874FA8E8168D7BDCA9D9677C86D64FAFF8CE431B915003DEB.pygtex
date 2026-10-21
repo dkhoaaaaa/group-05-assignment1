@@ -1,8 +1,6 @@
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
 
-\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
-
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.time.Duration}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.time.Instant}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.ArrayList}\PYG{p}{;}
@@ -10,6 +8,7 @@
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Locale}\PYG{p}{;}
 
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.BeforeEach}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Test}\PYG{p}{;}

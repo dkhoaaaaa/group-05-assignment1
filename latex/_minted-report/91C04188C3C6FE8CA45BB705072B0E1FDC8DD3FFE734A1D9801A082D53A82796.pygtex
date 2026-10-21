@@ -1,14 +1,13 @@
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
 
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.BigDecimal}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.RoundingMode}\PYG{p}{;}
+
 \PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertAll}\PYG{p}{;}
 \PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertDoesNotThrow}\PYG{p}{;}
 \PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertEquals}\PYG{p}{;}
 \PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
-
-\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.BigDecimal}\PYG{p}{;}
-\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.RoundingMode}\PYG{p}{;}
-
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.BeforeEach}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Tag}\PYG{p}{;}

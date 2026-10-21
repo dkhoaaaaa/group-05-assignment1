@@ -30,11 +30,11 @@
 \contentsline {subsection}{\numberline {6.4}Kiểm thử ca sử dụng cho FR-03 -- CheckoutTest.java}{29}{subsection.6.4}%
 \contentsline {subsection}{\numberline {6.5}Kiểm tra sắp xếp FR-04 -- SortTest.java}{32}{subsection.6.5}%
 \contentsline {subsection}{\numberline {6.6}Đo NFR-01 và đánh dấu lỗi đã biết -- PerformanceTest.java}{35}{subsection.6.6}%
-\contentsline {subsection}{\numberline {6.7}Kết quả chạy tự động}{38}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.7}Kết quả chạy tự động}{37}{subsection.6.7}%
 \contentsline {subsection}{\numberline {6.8}Nhận xét về chất lượng tự động hóa}{38}{subsection.6.8}%
-\contentsline {section}{\numberline {7}Đánh giá kết quả và kết luận}{39}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Bảng tổng hợp số lượng test case}{39}{subsection.7.1}%
+\contentsline {section}{\numberline {7}Đánh giá kết quả và kết luận}{38}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Bảng tổng hợp số lượng test case}{38}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Kết quả đạt được}{39}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}Hạn chế}{39}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Hướng phát triển}{40}{subsection.7.4}%
-\contentsline {section}{Phụ lục}{41}{section*.24}%
+\contentsline {subsection}{\numberline {7.4}Hướng phát triển}{39}{subsection.7.4}%
+\contentsline {section}{Phụ lục}{40}{section*.24}%
