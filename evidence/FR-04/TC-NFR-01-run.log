@@ -1,0 +1,71 @@
+[INFO] Scanning for projects...
+[INFO] -------------< vn.edu.softwaretesting:assignment1-starter >-------------
+[INFO] Building Assignment 1 - JUnit 5 Selenium Starter 1.0.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ assignment1-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/hung/Desktop/ktpm/group-XX-assignment1/automation/src/main/resources
+[INFO] --- maven-compiler-plugin:3.13.0:compile (default-compile) @ assignment1-starter ---
+[INFO] No sources to compile
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ assignment1-starter ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] --- maven-compiler-plugin:3.13.0:testCompile (default-testCompile) @ assignment1-starter ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] --- maven-surefire-plugin:3.5.2:test (default-test) @ assignment1-starter ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running vn.edu.softwaretesting.tests.PerformanceTest
+Lần đo 1: 5.149 giây
+Lần đo 2: 5.152 giây
+Lần đo 3: 5.162 giây
+Lần đo 4: 5.173 giây
+Lần đo 5: 5.167 giây
+
+=== KẾT QUẢ ĐO HIỆU NĂNG ===
+Số lần đo: 5
+Thời gian các lần đo: [5.149, 5.152, 5.162, 5.167, 5.173]
+Trung vị: 5.162 giây
+Ngưỡng yêu cầu: 3.0 giây
+Kết quả: FAIL [FAIL]
+Baseline (standard_user): 0.113 giây
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 58.40 s <<< FAILURE! -- in vn.edu.softwaretesting.tests.PerformanceTest
+[ERROR] vn.edu.softwaretesting.tests.PerformanceTest.testInventoryPageLoadTime -- Time elapsed: 57.29 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Trung vị thời gian load phải <= 3.0 giây (thực tế: 5.162 giây) ==> expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
+	at vn.edu.softwaretesting.tests.PerformanceTest.testInventoryPageLoadTime(PerformanceTest.java:94)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[INFO] Running vn.edu.softwaretesting.tests.LoginTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.600 s -- in vn.edu.softwaretesting.tests.LoginTest
+[INFO] Running vn.edu.softwaretesting.tests.SortTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.68 s -- in vn.edu.softwaretesting.tests.SortTest
+[INFO] Results:
+[ERROR] Failures: 
+[ERROR]   PerformanceTest.testInventoryPageLoadTime:94 Trung vị thời gian load phải <= 3.0 giây (thực tế: 5.162 giây) ==> expected: <true> but was: <false>
+[ERROR] Tests run: 21, Failures: 1, Errors: 0, Skipped: 0
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:26 min
+[INFO] Finished at: 2026-10-21T17:26:51+07:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.2:test (default-test) on project assignment1-starter: There are test failures.
+[ERROR] 
+[ERROR] See /home/hung/Desktop/ktpm/group-XX-assignment1/automation/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

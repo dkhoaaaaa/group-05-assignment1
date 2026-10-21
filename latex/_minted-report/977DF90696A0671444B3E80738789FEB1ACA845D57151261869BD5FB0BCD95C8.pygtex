@@ -1,0 +1,123 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
+
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.time.Duration}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.time.Instant}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.ArrayList}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Collections}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Test}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Timeout}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.core.WebTestBase}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.InventoryPage}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.LoginPage}\PYG{p}{;}
+
+\PYG{c+cm}{/**}
+\PYG{c+cm}{ * Test cases cho NFR\PYGZhy{}01: Hiệu năng}
+\PYG{c+cm}{ * Thời gian load trang inventory \PYGZlt{}= 3 giây (trung vị 5 lần đo)}
+\PYG{c+cm}{ */}
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{PerformanceTest}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{WebTestBase}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{static}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{3.0}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kd}{static}\PYG{+w}{ }\PYG{k+kd}{final}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{MEASUREMENT\PYGZus{}COUNT}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{+w}{ }\PYG{n}{loginPage}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nd}{@Override}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{openBrowser}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{.}\PYG{n+na}{openBrowser}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}NFR\PYGZhy{}01: Đo thời gian load trang inventory (performance\PYGZus{}glitch\PYGZus{}user)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@Timeout}\PYG{p}{(}\PYG{l+m+mi}{60}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testInventoryPageLoadTime}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{Double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{loadTimes}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}\PYGZgt{}}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{MEASUREMENT\PYGZus{}COUNT}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{c+c1}{// Đăng nhập với performance\PYGZus{}glitch\PYGZus{}user (user có bug load chậm)}
+\PYG{+w}{            }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n}{LoginPage}\PYG{p}{.}\PYG{n+na}{LoginResult}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{login}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}performance\PYGZus{}glitch\PYGZus{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}secret\PYGZus{}sauce\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{end}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{c+c1}{// Chỉ đo nếu login thành công}
+\PYG{+w}{            }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{result}\PYG{p}{.}\PYG{n+na}{accepted}\PYG{p}{())}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{c+c1}{// Đo thời gian load trang inventory}
+\PYG{+w}{                }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{pageStart}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+\PYG{+w}{                }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{                }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{waitForPageLoaded}\PYG{p}{();}
+\PYG{+w}{                }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{pageEnd}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+
+\PYG{+w}{                }\PYG{n}{Duration}\PYG{+w}{ }\PYG{n}{pageLoadDuration}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Duration}\PYG{p}{.}\PYG{n+na}{between}\PYG{p}{(}\PYG{n}{pageStart}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pageEnd}\PYG{p}{);}
+\PYG{+w}{                }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{loadTimeSeconds}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{pageLoadDuration}\PYG{p}{.}\PYG{n+na}{toMillis}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{1000.0}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{loadTimes}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{loadTimeSeconds}\PYG{p}{);}
+
+\PYG{+w}{                }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Lần đo \PYGZpc{}d: \PYGZpc{}.3f giây\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{i}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{loadTimeSeconds}\PYG{p}{);}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{            }\PYG{c+c1}{// Đóng trình duyệt và mở lại cho lần đo tiếp theo}
+\PYG{+w}{            }\PYG{n}{driver}\PYG{p}{.}\PYG{n+na}{quit}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n}{openBrowser}\PYG{p}{();}
+\PYG{+w}{            }\PYG{n}{loginPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{inventoryPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{c+c1}{// Tính trung vị (median)}
+\PYG{+w}{        }\PYG{n}{Collections}\PYG{p}{.}\PYG{n+na}{sort}\PYG{p}{(}\PYG{n}{loadTimes}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{median}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{loadTimes}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZpc{}}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{==}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{median}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{loadTimes}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{loadTimes}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{))}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{2.0}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{median}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{loadTimes}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}n=== KẾT QUẢ ĐO HIỆU NĂNG ===\PYGZpc{}n\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Số lần đo: \PYGZpc{}d\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{size}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Thời gian các lần đo: \PYGZpc{}s\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{loadTimes}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Trung vị: \PYGZpc{}.3f giây\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{median}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Ngưỡng yêu cầu: \PYGZpc{}.1f giây\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Kết quả: \PYGZpc{}s\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{median}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{+w}{ }\PYG{o}{?}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}PASS [PASS]\PYGZdq{}}\PYG{+w}{ }\PYG{p}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}FAIL [FAIL]\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Test sẽ FAIL vì performance\PYGZus{}glitch\PYGZus{}user có bug load chậm}
+\PYG{+w}{        }\PYG{c+c1}{// Bug: BUG\PYGZhy{}01 \PYGZhy{} Trung vị thời gian load \PYGZgt{} 3 giây}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{median}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n}{String}\PYG{p}{.}\PYG{n+na}{format}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Trung vị thời gian load phải \PYGZlt{}= \PYGZpc{}.1f giây (thực tế: \PYGZpc{}.3f giây)\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                        }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{median}\PYG{p}{));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}NFR\PYGZhy{}01\PYGZhy{}BASELINE: Đo baseline với standard\PYGZus{}user (để so sánh)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@Timeout}\PYG{p}{(}\PYG{l+m+mi}{30}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testInventoryPageLoadTimeBaseline}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{c+c1}{// Đăng nhập với standard\PYGZus{}user (user bình thường)}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{login}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}standard\PYGZus{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}secret\PYGZus{}sauce\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Đo thời gian load trang inventory}
+\PYG{+w}{        }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{start}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{waitForPageLoaded}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{Instant}\PYG{+w}{ }\PYG{n}{end}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Instant}\PYG{p}{.}\PYG{n+na}{now}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{Duration}\PYG{+w}{ }\PYG{n}{loadDuration}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Duration}\PYG{p}{.}\PYG{n+na}{between}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{end}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{loadTimeSeconds}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{loadDuration}\PYG{p}{.}\PYG{n+na}{toMillis}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mf}{1000.0}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{n}{System}\PYG{p}{.}\PYG{n+na}{out}\PYG{p}{.}\PYG{n+na}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Baseline (standard\PYGZus{}user): \PYGZpc{}.3f giây\PYGZpc{}n\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{loadTimeSeconds}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Baseline thường \PYGZlt{} 3 giây}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{loadTimeSeconds}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{n}{THRESHOLD\PYGZus{}SECONDS}\PYG{p}{,}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Baseline với standard\PYGZus{}user phải \PYGZlt{}= 3 giây\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

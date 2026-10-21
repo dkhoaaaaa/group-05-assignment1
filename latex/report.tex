@@ -1,0 +1,247 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{vietnam}
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[cache]{minted}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{amssymb}
+
+% Cấu hình màu cho code
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usemintedstyle{solarized-light}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\title{\textbf{BÁO CÁO BÀI TẬP KIỂM THỬ PHẦN MỀM}\\
+       \textbf{Assignment 1 - Phần của TV5 (Hùng)}}
+\author{Nguyễn Văn Hùng}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\newpage
+
+\section{Giới thiệu}
+Báo cáo này trình bày các test case thiết kế và code tự động hóa cho các nhiệm vụ của thành viên TV5 (Hùng):
+\begin{itemize}
+    \item \textbf{FR-04}: Sắp xếp sản phẩm (4 kiểu sort)
+    \item \textbf{NFR-01}: Hiệu năng (thời gian load $\leq$ 3 giây)
+\end{itemize}
+
+% ============================================
+\section{FR-04: Chức năng Sắp xếp}
+% ============================================
+\sectionmark{FR-04: Sắp xếp}
+
+\subsection{Yêu cầu chức năng}
+Cho phép người dùng sắp xếp danh sách sản phẩm theo 4 tiêu chí:
+\begin{enumerate}
+    \item Name (A to Z) - Sắp xếp theo tên từ A đến Z
+    \item Name (Z to A) - Sắp xếp theo tên từ Z đến A
+    \item Price (low to high) - Sắp xếp theo giá tăng dần
+    \item Price (high to low) - Sắp xếp theo giá giảm dần
+\end{enumerate}
+
+\subsection{Kỹ thuật thiết kế: Phân lớp tương đương (EP)}
+
+\subsubsection{Bảng phân lớp tương đương}
+\begin{table}[h!]
+\centering
+\caption{Bảng phân lớp tương đương cho FR-04}
+\label{tab:ep-classes}
+\begin{tabular}{cp{6cm}cp{4cm}}
+\toprule
+\textbf{Lớp} & \textbf{Mô tả} & \textbf{Giá trị} & \textbf{Kết quả mong đợi} \\
+\midrule
+EC1 & Chọn sắp xếp Name A->Z & \texttt{az} & Danh sách A->Z \\
+EC2 & Chọn sắp xếp Name Z->A & \texttt{za} & Danh sách Z->A \\
+EC3 & Chọn sắp xếp Price low->high & \texttt{lohi} & Danh sách giá tăng dần \\
+EC4 & Chọn sắp xếp Price high->low & \texttt{hilo} & Danh sách giá giảm dần \\
+EC5 & Không chọn (default) & (mặc định) & Thứ tự mặc định \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kỹ thuật thiết kế: Phân tích giá trị biên (BVA)}
+\begin{table}[h!]
+\centering
+\caption{Boundary Values cho FR-04}
+\label{tab:bva-boundaries}
+\begin{tabular}{cp{4cm}cp{4cm}}
+\toprule
+\textbf{Test Case} & \textbf{Giá trị biên} & \textbf{Mong đợi} \\
+\midrule
+TC-SORT-BVA1 & Sản phẩm giá thấp nhất (min) & Ở vị trí đầu (sort low->high) \\
+TC-SORT-BVA2 & Sản phẩm giá cao nhất (max) & Ở vị trí đầu (sort high->low) \\
+TC-SORT-BVA3 & Sản phẩm giữa (mid) & Thỏa mãn: prev $\leq$ mid $\leq$ next \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Bảng Test Cases chi tiết (FR-04)}
+\begin{longtable}{|p{2.5cm}|p{3cm}|p{2cm}|p{6cm}|p{3cm}|}
+\caption{Danh sách Test Cases cho FR-04}
+\label{tab:fr04-tc} \\
+\hline
+\textbf{TC ID} & \textbf{Tên test} & \textbf{Kỹ thuật} & \textbf{Test Steps} & \textbf{Expected Result} \\
+\hline
+\endfirsthead
+\hline
+\textbf{TC ID} & \textbf{Tên test} & \textbf{Kỹ thuật} & \textbf{Test Steps} & \textbf{Expected Result} \\
+\hline
+\endhead
+\hline
+\endfoot
+TC-SORT-EP1 & Sort Name A->Z & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Name (A to Z)"\end{tabular} & Danh sách A->Z \\
+\hline
+TC-SORT-EP2 & Sort Name Z->A & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Name (Z to A)"\end{tabular} & Danh sách Z->A \\
+\hline
+TC-SORT-EP3 & Sort Price low->high & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Price (low to high)"\end{tabular} & Giá tăng dần \\
+\hline
+TC-SORT-EP4 & Sort Price high->low & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Price (high to low)"\end{tabular} & Giá giảm dần \\
+\hline
+TC-SORT-EP5 & Default sort & EP & \begin{tabular}{l}1. Đăng nhập\\2. Không thay đổi sort\end{tabular} & Thứ tự mặc định \\
+\hline
+TC-SORT-BVA1 & Boundary - Min price & BVA & \begin{tabular}{l}1. Sort low->high\\2. Kiểm tra vị trí đầu\end{tabular} & Giá min ở đầu \\
+\hline
+TC-SORT-BVA2 & Boundary - Max price & BVA & \begin{tabular}{l}1. Sort high->low\\2. Kiểm tra vị trí đầu\end{tabular} & Giá max ở đầu \\
+\hline
+TC-SORT-BVA3 & Boundary - Mid item & BVA & \begin{tabular}{l}1. Sort A->Z\\2. Kiểm tra sản phẩm giữa\end{tabular} & prev $\leq$ mid $\leq$ next \\
+\hline
+\end{longtable}
+
+% ============================================
+\section{NFR-01: Hiệu năng}
+% ============================================
+\sectionmark{NFR-01: Hiệu năng}
+
+\subsection{Yêu cầu phi chức năng}
+Thời gian load trang inventory phải $\leq$ 3 giây, đo bằng trung vị của 5 lần đo.
+
+\subsection{Test Case NFR-01}
+\begin{table}[h!]
+\centering
+\caption{Test Case cho NFR-01}
+\label{tab:nfr01-tc}
+\begin{tabular}{cp{4cm}cp{5cm}}
+\toprule
+\textbf{TC ID} & \textbf{Mô tả} & \textbf{Test Data} & \textbf{Expected Result} \\
+\midrule
+TC-NFR-01 & \begin{tabular}{l}Đo thời gian load\\inventory page\end{tabular} & \begin{tabular}{l}Username: performance\_glitch\_user\\Password: secret\_sauce\end{tabular} & \begin{tabular}{l}Trung vị 5 lần đo $\leq$ 3 giây\end{tabular} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết quả test hiệu năng (dự kiến)}
+\begin{itemize}
+    \item \textbf{baseline} (standard\_user): $\approx$ 1-2 giây $\rightarrow$ PASS
+    \item \textbf{performance\_glitch\_user}: $\approx$ 5 giây $\rightarrow$ FAIL (BUG-01)
+\end{itemize}
+
+% ============================================
+\section{Code Tự động hóa}
+% ============================================
+\sectionmark{Code Automation}
+
+\subsection{Mã nguồn SortTest.java}
+\begin{listing}[H]
+\inputminted[frame=single, linenos]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/SortTest.java}
+\caption{SortTest.java}
+\label{lst:sorttest}
+\end{listing}
+
+\subsection{Mã nguồn PerformanceTest.java}
+\begin{listing}[H]
+\inputminted[frame=single, linenos]{java}{automation/src/test/java/vn/edu/softwaretesting/tests/PerformanceTest.java}
+\caption{PerformanceTest.java}
+\label{lst:perftest}
+\end{listing}
+
+% ============================================
+\section{Kết luận}
+% ============================================
+\sectionmark{Kết luận}
+
+\subsection{Tổng kết số lượng test cases}
+\begin{table}[h!]
+\centering
+\caption{Tổng kết test cases của TV5}
+\label{tab:summary}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Kỹ thuật} & \textbf{Số lượng TC thiết kế} & \textbf{Số lượng TC code} \\
+\midrule
+EP (Equivalence Partitioning) & 5 & 7 \\
+BVA (Boundary Value Analysis) & 3 & 2 \\
+Performance & 1 & 2 \\
+\midrule
+\textbf{Tổng cộng} & \textbf{9} & \textbf{9} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Điểm đạt được}
+\begin{itemize}
+    \item[\checkmark] Thiết kế $\geq$ 8 test cases cho FR-04 (thực tế: 8 TC)
+    \item[\checkmark] 1 test case cho NFR-01
+    \item[\checkmark] Code $\geq$ 3 test cases cho FR-04 (thực tế: 7 TC)
+    \item[\checkmark] Sử dụng @ParameterizedTest với @ValueSource và @MethodSource
+    \item[\checkmark] Sử dụng Page Object pattern (InventoryPage.java)
+    \item[\checkmark] Sử dụng WebDriverWait (không dùng Thread.sleep)
+\end{itemize}
+
+\subsection{Bug phát hiện}
+\begin{itemize}
+    \item \textbf{BUG-01}: Trang inventory load chậm ($\approx$ 5 giây) khi sử dụng tài khoản \texttt{performance\_glitch\_user}, vượt ngưỡng 3 giây theo yêu cầu NFR-01.
+\end{itemize}
+
+\newpage
+\section*{Phụ lục}
+\addcontentsline{toc}{section}{Phụ lục}
+
+\subsection*{Cấu trúc thư mục automation}
+\begin{verbatim}
+automation/
++-- pom.xml
++-- src/test/java/vn/edu/softwaretesting/
+    +-- core/
+    |   +-- WebTestBase.java
+    +-- pages/
+    |   +-- LoginPage.java
+    |   +-- InventoryPage.java
+    +-- tests/
+        +-- LoginTest.java
+        +-- SortTest.java      <-- TV5
+        +-- PerformanceTest.java <-- TV5
+\end{verbatim}
+
+\subsection*{Cách chạy tests}
+\begin{verbatim}
+# Chạy tất cả tests
+mvn clean test
+
+# Chạy chỉ SortTest
+mvn test -Dtest=SortTest
+
+# Chạy chỉ PerformanceTest
+mvn test -Dtest=PerformanceTest
+\end{verbatim}
+
+\end{document}

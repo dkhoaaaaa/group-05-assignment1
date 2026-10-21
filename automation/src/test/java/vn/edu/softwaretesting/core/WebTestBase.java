@@ -2,6 +2,7 @@ package vn.edu.softwaretesting.core;
 
 import java.time.Duration;
 import java.util.Locale;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ public abstract class WebTestBase {
     protected String baseUrl;
 
     @BeforeEach
-    void openBrowser() {
+    public void openBrowser() {
         baseUrl = System.getProperty("baseUrl", "https://www.saucedemo.com");
         String browser = System.getProperty("browser", "chrome")
                 .toLowerCase(Locale.ROOT);
@@ -45,6 +46,10 @@ public abstract class WebTestBase {
 
     private ChromeOptions chromeOptions(boolean headless) {
         ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("prefs", Map.of(
+                "credentials_enable_service", false,
+                "profile.password_manager_enabled", false,
+                "profile.password_manager_leak_detection", false));
         if (headless) {
             options.addArguments("--headless=new");
         }
