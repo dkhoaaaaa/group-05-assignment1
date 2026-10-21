@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1792597341.98946 "report.tex" "report.pdf" "report" 1792597343.23954 0
+["pdflatex"] 1792597412.0777 "/home/hung/Desktop/ktpm/group-XX-assignment1/latex/report.tex" "report.pdf" "report" 1792597413.52677 0
   "../automation/src/test/java/vn/edu/softwaretesting/tests/CartTest.java" 1792581390.09609 4118 ae0dc8259878489901aeeb7f00e6ddd5 ""
   "../automation/src/test/java/vn/edu/softwaretesting/tests/CheckoutTest.java" 1792597254.13685 6192 91c04188c3c6fe8ca45bb705072b0e1f ""
   "../automation/src/test/java/vn/edu/softwaretesting/tests/LoginTest.java" 1792490135.9339 1642 98e611fe83f58590deac6ffb2c45c5fc ""
@@ -14,6 +14,7 @@
   "/etc/texmf/web2c/texmf.cnf" 1791971736.44363 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/hung/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1791972612.21558 14040 63c223500e962358d1f91bf269d44ef6 ""
   "/home/hung/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600pk" 1792593039.30255 9468 fafc081a9cbebd985c88434a629fedde ""
+  "/home/hung/Desktop/ktpm/group-XX-assignment1/latex/report.tex" 1792597334.53266 37288 c37454ee4746f5f352a663372524ad02 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/symbol/psyr.tfm" 1136768653 1408 5937f58aa508ea2cea4901c07d10f5fe ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm" 1136768653 1528 f853c4d1b4e0550255e02831fdc8496f ""
@@ -168,10 +169,10 @@
   "gen_requirements.tex" 1792595979.48408 3479 c0235d26e034792b1d380b4e3609735c ""
   "gen_testcases.tex" 1792595979.48568 14606 10bb0de527494d4ae36a4863bc7a836c ""
   "gen_traceability.tex" 1792595979.48453 1753 11c476b5751ce8bac1ea9d28cbf2b8d9 ""
-  "report.aux" 1792597343.0767 17226 3767f6dc6e08b2b029369de359dc20e1 "pdflatex"
-  "report.out" 1792597343.0777 9848 c3fcc28ad40655745a39ca92183133f6 "pdflatex"
+  "report.aux" 1792597413.36303 17226 3767f6dc6e08b2b029369de359dc20e1 "pdflatex"
+  "report.out" 1792597413.36403 9848 c3fcc28ad40655745a39ca92183133f6 "pdflatex"
   "report.tex" 1792597334.53266 37288 c37454ee4746f5f352a663372524ad02 ""
-  "report.toc" 1792597343.0787 4186 8fddc3df027debf78afe7079e9bdeaa7 "pdflatex"
+  "report.toc" 1792597413.36503 4186 8fddc3df027debf78afe7079e9bdeaa7 "pdflatex"
   (generated)
   "report.aux"
   "report.log"
