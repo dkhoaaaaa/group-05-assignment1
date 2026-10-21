@@ -1,16 +1,10 @@
 package vn.edu.softwaretesting.tests;
 
-<<<<<<< HEAD
-=======
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
->>>>>>> e89a8a08a1202ba392669b112ab6f365f9af711d
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-<<<<<<< HEAD
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-=======
 import org.junit.jupiter.params.provider.CsvSource;
->>>>>>> e89a8a08a1202ba392669b112ab6f365f9af711d
 
 import vn.edu.softwaretesting.core.WebTestBase;
 import vn.edu.softwaretesting.pages.CheckoutPage;
