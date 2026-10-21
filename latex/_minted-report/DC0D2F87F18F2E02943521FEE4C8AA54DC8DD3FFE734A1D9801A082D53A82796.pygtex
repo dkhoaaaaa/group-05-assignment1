@@ -1,0 +1,139 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
+
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertAll}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertDoesNotThrow}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertEquals}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.BigDecimal}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.math.RoundingMode}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.BeforeEach}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Tag}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Test}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.ParameterizedTest}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.provider.CsvSource}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.core.WebTestBase}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.CheckoutPage}\PYG{p}{;}
+
+\PYG{n+nd}{@Tag}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}web\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}FR\PYGZhy{}03: Checkout\PYGZdq{}}\PYG{p}{)}
+\PYG{k+kd}{class} \PYG{n+nc}{CheckoutTest}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{WebTestBase}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{CheckoutPage}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nd}{@BeforeEach}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{preparePageObject}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{CheckoutPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}01: full information moves to checkout overview\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{fullInformationMovesToOverview}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForOverview}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{().}\PYG{n+na}{endsWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}checkout\PYGZhy{}step\PYGZhy{}two.html\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}01 got URL: \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{());}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}\PYG{p}{(}\PYG{n}{name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZob{}0\PYGZcb{}: first=\PYGZsq{}\PYGZsq{}\PYGZob{}1\PYGZcb{}\PYGZsq{}\PYGZsq{}, last=\PYGZsq{}\PYGZsq{}\PYGZob{}2\PYGZcb{}\PYGZsq{}\PYGZsq{}, postal=\PYGZsq{}\PYGZsq{}\PYGZob{}3\PYGZcb{}\PYGZsq{}\PYGZsq{} \PYGZhy{}\PYGZgt{} \PYGZob{}4\PYGZcb{}\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02: missing information shows the expected error\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@CsvSource}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02.1, \PYGZsq{}\PYGZsq{}, Nguyen, 700000, Error: First Name is required\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02.2, An, \PYGZsq{}\PYGZsq{},     700000, Error: Last Name is required\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02.3, An, Nguyen, \PYGZsq{}\PYGZsq{},     Error: Postal Code is required\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02.4, \PYGZsq{}\PYGZsq{}, \PYGZsq{}\PYGZsq{},     \PYGZsq{}\PYGZsq{},     Error: First Name is required\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}02.5, An, \PYGZsq{}\PYGZsq{},     \PYGZsq{}\PYGZsq{},     Error: Last Name is required\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{missingInformationShowsError}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{last}\PYG{p}{,}
+\PYG{+w}{                                      }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{postal}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{expectedError}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{).}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{n}{first}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{last}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{postal}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertAll}\PYG{p}{(}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{expectedError}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{errorMessage}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{),}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{().}\PYG{n+na}{endsWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}checkout\PYGZhy{}step\PYGZhy{}one.html\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                        }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{id}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} should stay on step one, got: \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}03: cancel on information step returns to cart and keeps the item\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{cancelInformationStepReturnsToCart}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{).}\PYG{n+na}{cancelInformationStep}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertAll}\PYG{p}{(}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{().}\PYG{n+na}{endsWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}cart.html\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                        }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}03 got URL: \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{()),}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{cartContainsBackpack}\PYG{p}{(),}
+\PYG{+w}{                        }\PYG{l+s}{\PYGZdq{}Sauce Labs Backpack should remain in the cart\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{cartBadgeCount}\PYG{p}{()));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@Tag}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}known\PYGZhy{}bug\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}01 [BUG\PYGZhy{}03]: problem\PYGZus{}user can fill information and continue\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{problemUserCanFillInformation}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpackAs}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}problem\PYGZus{}user\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertDoesNotThrow}\PYG{p}{(()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}BUG\PYGZhy{}03: Last Name does not keep the typed text for problem\PYGZus{}user\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{waitForOverview}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}04: checkout overview displays the correct totals\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{checkoutOverviewCalculatesTotals}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{waitForOverview}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{BigDecimal}\PYG{+w}{ }\PYG{n}{itemTotal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{itemTotal}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{BigDecimal}\PYG{+w}{ }\PYG{n}{expectedTax}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{itemTotal}\PYG{p}{.}\PYG{n+na}{multiply}\PYG{p}{(}\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BigDecimal}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}0.08\PYGZdq{}}\PYG{p}{))}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{setScale}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{RoundingMode}\PYG{p}{.}\PYG{n+na}{HALF\PYGZus{}UP}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{BigDecimal}\PYG{+w}{ }\PYG{n}{expectedTotal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{itemTotal}\PYG{p}{.}\PYG{n+na}{add}\PYG{p}{(}\PYG{n}{expectedTax}\PYG{p}{).}\PYG{n+na}{setScale}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{RoundingMode}\PYG{p}{.}\PYG{n+na}{HALF\PYGZus{}UP}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BigDecimal}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}29.99\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{itemTotal}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{expectedTax}\PYG{p}{.}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{tax}\PYG{p}{()));}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{expectedTotal}\PYG{p}{.}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{total}\PYG{p}{()));}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{().}\PYG{n+na}{contains}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}checkout\PYGZhy{}step\PYGZhy{}two.html\PYGZdq{}}\PYG{p}{));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}05: Finish completes the order and clears the cart\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{finishCompletesOrderAndClearsCart}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForOverview}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{finishOrder}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Thank you for your order!\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{confirmationMessage}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{cartBadgeIsHidden}\PYG{p}{(),}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Cart badge should be hidden after order completion\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}06: cancel from overview returns to inventory and preserves the item\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{cancelFromOverviewReturnsToInventory}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpack}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForOverview}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{cancelOverview}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{currentUrl}\PYG{p}{().}\PYG{n+na}{endsWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}inventory.html\PYGZdq{}}\PYG{p}{),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Cancel should return to inventory.html\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{cartBadgeCount}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}The backpack should remain in the cart after cancelling checkout\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CHK\PYGZhy{}07: two\PYGZhy{}item checkout calculates totals and completes the order\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{twoItemCheckoutCalculatesTotalsAndCompletesOrder}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{openWithBackpackAndBikeLight}\PYG{p}{(}\PYG{n}{baseUrl}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{continueWith}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}An\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Nguyen\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}700000\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForOverview}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{BigDecimal}\PYG{+w}{ }\PYG{n}{itemTotal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{itemTotal}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BigDecimal}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}39.98\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{itemTotal}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BigDecimal}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}3.20\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{tax}\PYG{p}{()));}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{BigDecimal}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}43.18\PYGZdq{}}\PYG{p}{).}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{total}\PYG{p}{()));}
+
+\PYG{+w}{        }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{finishOrder}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Thank you for your order!\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{confirmationMessage}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{checkout}\PYG{p}{.}\PYG{n+na}{cartBadgeIsHidden}\PYG{p}{(),}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Cart badge should be hidden after order completion\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

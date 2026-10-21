@@ -1,0 +1,90 @@
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{longtable}{|p{2.0cm}|p{2.7cm}|p{2.9cm}|p{4.9cm}|p{1.6cm}|}
+\caption{Kết quả thực thi test case thủ công (NV4)}
+\label{tab:execution} \\
+\hline
+\textbf{Mã TC} & \textbf{Ngày / Người thực hiện} & \textbf{Môi trường} & \textbf{Kết quả thực tế} & \textbf{Trạng thái} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Mã TC} & \textbf{Ngày / Người thực hiện} & \textbf{Môi trường} & \textbf{Kết quả thực tế} & \textbf{Trạng thái} \\
+\hline
+\endhead
+\hline \endfoot
+TC-LOGIN-DT1 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Username is required & Pass \\
+\hline
+TC-LOGIN-DT2 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Username is required & Pass \\
+\hline
+TC-LOGIN-DT3 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Password is required & Pass \\
+\hline
+TC-LOGIN-DT4 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Username and password do not match any user in this service & Pass \\
+\hline
+TC-LOGIN-DT5 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Sorry, this user has been locked out. & Pass \\
+\hline
+TC-LOGIN-DT6 & 11/10/26 - Đăng Khoa & Chrome & Chuyển hướng sang trang danh sách sản phẩm (inventory.html) & Pass \\
+\hline
+TC-LOGIN-DT7 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Username and password do not match any user in this service & Pass \\
+\hline
+TC-LOGIN-DT8 & 11/10/26 - Đăng Khoa & Chrome & Epic sadface: Username and password do not match any user in this service & Pass \\
+\hline
+TC-CART-BVA-01 & 19/10/26 - Thành Nhân & Chrome & Ghi lại badge có/không hiển thị và giỏ hàng có rỗng không & Pass \\
+\hline
+TC-CART-BVA-02 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge và tên sản phẩm thực tế trong giỏ & Pass \\
+\hline
+TC-CART-BVA-03 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge và số sản phẩm thực tế trong giỏ & Pass \\
+\hline
+TC-CART-BVA-04 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge và số sản phẩm thực tế trong giỏ & Pass \\
+\hline
+TC-CART-BVA-05 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge và số sản phẩm thực tế trong giỏ & Pass \\
+\hline
+TC-CART-BVA-06 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge sau khi xoá và sản phẩm còn lại & Pass \\
+\hline
+TC-CART-BVA-07 & 19/10/26 - Thành Nhân & Chrome & Ghi số trên badge và sản phẩm còn lại & Pass \\
+\hline
+TC-CART-BVA-08 & 19/10/26 - Thành Nhân & Chrome & Ghi badge có/không hiển thị và giỏ hàng có rỗng không & Pass \\
+\hline
+TC-CHK-01 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Chuyển hướng sang trang Checkout: Overview (checkout-step-two.html) & Pass \\
+\hline
+TC-CHK-02.1 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Vẫn ở checkout-step-one.html, hiển thị ``Error: First Name is required'' & Pass \\
+\hline
+TC-CHK-02.2 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Vẫn ở checkout-step-one.html, hiển thị ``Error: Last Name is required'' & Pass \\
+\hline
+TC-CHK-02.3 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Vẫn ở checkout-step-one.html, hiển thị ``Error: Postal Code is required'' & Pass \\
+\hline
+TC-CHK-02.4 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Vẫn ở checkout-step-one.html, hiển thị ``Error: First Name is required'' & Pass \\
+\hline
+TC-CHK-02.5 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Vẫn ở checkout-step-one.html, hiển thị ``Error: Last Name is required'' & Pass \\
+\hline
+TC-CHK-03 & 19/10/26 - Gia Khải & Chrome, Windows 11, standard\_\allowbreak{}user & Chuyển về lại trang Your Cart (cart.html); Giỏ vẫn còn Sauce Labs Backpack giá \$29.99, badge giỏ hàng = 1 & Pass \\
+\hline
+TC-CHK03.1 & 19/10/26 - Gia Khải & Chrome, Windows 11, problem\_\allowbreak{}user & Gõ vào Last Name thì ký tự hiện ở First Name và thay thế toàn bộ nội dung First Name; Last Name vẫn trống. Nhấn Continue: ``Error: Last Name is required'' & \textbf{Fail (BUG-03)} \\
+\hline
+TC-CHK-04 & 19/10/2026 - Thanh Sinh & Chrome , Windows 11, standard\_\allowbreak{}user & Maven/Selenium: đến trang Overview; Item total \$29.99, Tax \$2.40, Total \$32.39 & Pass \\
+\hline
+TC-CHK-05 & 19/10/2026 - Thanh Sinh & Chrome , Windows 11, standard\_\allowbreak{}user & Maven/Selenium: đến trang Checkout Complete; hiện ``Thank you for your order!''; badge giỏ hàng bị ẩn & Pass \\
+\hline
+TC-CHK-06 & 19/10/2026 - Thanh Sinh & Chrome , Windows 11, standard\_\allowbreak{}user & Nhấn Cancel ở Overview; quay về cart.html; Backpack vẫn còn trong giỏ & Pass \\
+\hline
+TC-CHK-07 & 19/10/2026 - Thanh Sinh & Chrome , Windows 11, standard\_\allowbreak{}user & Item total \$39.98; Tax \$3.20; Total \$43.18; hiện ``Thank you for your order!'' & Pass \\
+\hline
+TC-SORT-EP1 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & 6 sản phẩm sắp xếp đúng A$\rightarrow$Z theo tên. Danh sách thực tế khớp với Collections.sort(). & Pass \\
+\hline
+TC-SORT-EP2 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & 6 sản phẩm sắp xếp đúng Z$\rightarrow$A theo tên. Danh sách thực tế khớp với reverseOrder(). & Pass \\
+\hline
+TC-SORT-EP3 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & 6 sản phẩm sắp xếp đúng low$\rightarrow$high theo giá. Sử dụng @ValueSource và @MethodSource. & Pass \\
+\hline
+TC-SORT-EP4 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & 6 sản phẩm sắp xếp đúng high$\rightarrow$low theo giá. Tất cả 4 sort options hoạt động đúng. & Pass \\
+\hline
+TC-SORT-EP5 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & Default sort = A$\rightarrow$Z (thứ tự mặc định của app, không chọn sort). & Pass \\
+\hline
+TC-SORT-BVA1 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & Sản phẩm đầu tiên sau sort lohi có giá \$7.99 (min). Boundary giá thấp nhất đúng ở index 0. & Pass \\
+\hline
+TC-SORT-BVA2 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & Sản phẩm đầu tiên sau sort hilo có giá \$49.99 (max). Boundary giá cao nhất đúng ở index 0. & Pass \\
+\hline
+TC-SORT-BVA3 & 20/10/2026 - Hùng & Chrome, standard\_\allowbreak{}user & Sản phẩm giữa (index 2/3) thỏa mãn prev <= middle <= next. Boundary sản phẩm giữa đúng vị trí. & Pass \\
+\hline
+TC-NFR-01 & 21/10/2026 - Hùng & Chrome 153.0.8010.36, performance\_\allowbreak{}glitch\_\allowbreak{}user & Trung vị 5 lần đo = 5.162s (vượt ngưỡng 3s) -> FAIL. Chi tiết: [5.149, 5.152, 5.162, 5.167, 5.173]. Baseline standard\_\allowbreak{}user chỉ 0.113s. Chạy lúc 21/10/2026 17:26 bằng 'mvn -B test' (toàn bộ 21 test: 20 pass, 1 fail có chủ đích - Tests run: 21, Failures: 1, Errors: 0). Bằng chứng: evidence/FR-04/TC-NFR-01.png, evidence/FR-04/BUG-01.mp4 & \textbf{Fail} \\
+\hline
+\end{longtable}
+\normalsize

@@ -8,6 +8,7 @@
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Collections}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
 
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.BeforeEach}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.MethodOrderer}\PYG{p}{;}
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Order}\PYG{p}{;}
@@ -32,9 +33,8 @@
 \PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{+w}{ }\PYG{n}{loginPage}\PYG{p}{;}
 \PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{;}
 
-\PYG{+w}{    }\PYG{n+nd}{@Override}
-\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{openBrowser}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
-\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{.}\PYG{n+na}{openBrowser}\PYG{p}{();}
+\PYG{+w}{    }\PYG{n+nd}{@BeforeEach}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{initPages}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
 \PYG{+w}{        }\PYG{n}{loginPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{baseUrl}\PYG{p}{);}
 \PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
 \PYG{+w}{    }\PYG{p}{\PYGZcb{}}

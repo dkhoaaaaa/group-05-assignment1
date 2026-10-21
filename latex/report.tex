@@ -1,21 +1,39 @@
 \documentclass[12pt,a4paper]{article}
+
+% ============================================================
+%  BÁO CÁO BÀI TẬP KIỂM THỬ PHẦN MỀM - ASSIGNMENT 1
+%  Nhóm XX - Trường Đại học Sài Gòn, Khoa CNTT
+%  Nội dung sinh từ test-cases.xlsx (script: latex/gen_tables.py)
+% ============================================================
+
 \usepackage[utf8]{vietnam}
-\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage[top=2.2cm, bottom=2.2cm, left=2.4cm, right=2.4cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
 \usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{fvextra}
 \usepackage[cache]{minted}
 \usepackage{float}
 \usepackage{pifont}
 \usepackage{amssymb}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{makecell}
+\usepackage{tabularx}
 
-% Cấu hình màu cho code
+\graphicspath{{../evidence/}{../evidence/FR-02/}{../evidence/FR-04/}{../evidence/NV1/}{../evidence/NV4/}{../evidence/P1/}}
+
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{passgreen}{rgb}{0.10,0.55,0.20}
+\definecolor{failred}{rgb}{0.75,0.10,0.10}
 
 \usemintedstyle{solarized-light}
 
@@ -24,224 +42,725 @@
     linkcolor=blue,
     filecolor=magenta,
     urlcolor=cyan,
+    pdftitle={Báo cáo Assignment 1 - Kiểm thử hộp đen SauceDemo},
 }
 
-\title{\textbf{BÁO CÁO BÀI TẬP KIỂM THỬ PHẦN MỀM}\\
-       \textbf{Assignment 1 - Phần của TV5 (Hùng)}}
-\author{Nguyễn Văn Hùng}
-\date{\today}
+\captionsetup{font=small,labelfont=bf}
+\setlist[itemize]{leftmargin=1.5em}
+\setlist[enumerate]{leftmargin=1.8em}
+\setlength{\parskip}{2pt}
+
+% Định dạng cell cho longtable
+\renewcommand{\arraystretch}{1.15}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Báo cáo Assignment 1 -- Nhóm XX}
+\fancyhead[R]{\small Kiểm thử hộp đen SauceDemo}
+\fancyfoot[C]{\small \thepage}
+\setlength{\headheight}{14.5pt}
 
 \begin{document}
-\maketitle
-\thispagestyle{empty}
-\newpage
+
+% ============================================================
+%  TRANG BÌA
+% ============================================================
+\begin{titlepage}
+\centering
+\vspace*{1.2cm}
+
+{\Large \textbf{TRƯỜNG ĐẠI HỌC SÀI GÒN}}\\[0.3cm]
+{\Large \textbf{KHOA CÔNG NGHỆ THÔNG TIN}}\\[1.4cm]
+
+{\Huge \textbf{BÁO CÁO BÀI TẬP LỚN}}\\[0.3cm]
+{\Huge \textbf{KIỂM THỬ PHẦN MỀM}}\\[0.8cm]
+{\Large \textbf{Assignment 1 -- Kiểm thử hộp đen}}\\[0.3cm]
+{\large Thiết kế test case và tự động hóa web với JUnit 5 + Selenium WebDriver}\\[1.6cm]
+
+\begin{minipage}{0.98\textwidth}
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|p{4.2cm}|p{4.1cm}|}
+\hline
+\textbf{STT} & \textbf{Mã TV} & \textbf{MSSV} & \textbf{Họ và tên} & \textbf{Phần việc} \\
+\hline
+1 & TV1 & 3123410171 & Nguyễn Nhật Đăng Khoa & Trưởng nhóm; NV1, FR-01 (đăng nhập) \\
+\hline
+2 & TV2 & 3123560056 & Nguyễn Thành Nhân & NV1, FR-02 (giỏ hàng) \\
+\hline
+3 & TV3 & 3124410140 & Trương Gia Khải & FR-03.1, FR-03.2, phát hiện BUG-03 \\
+\hline
+4 & TV4 & -- & Thanh Sinh & FR-03.3 $\rightarrow$ FR-03.6 \\
+\hline
+5 & TV5 & 3122410136 & Nguyễn Đình Hùng & FR-04, NFR-01, tổng hợp báo cáo \\
+\hline
+\end{tabular}
+\end{minipage}
+
+\vspace{1.4cm}
+
+{\large \textbf{Giáo viên hướng dẫn: Thạc sĩ Từ Lãng Phiêu}}\\[0.8cm]
+{\large \textbf{Đơn vị kiểm thử: SauceDemo -- \texttt{https://www.saucedemo.com}}}\\[0.3cm]
+{\large \textbf{Ngày nộp báo cáo: 21/10/2026}}\\[1.6cm]
+
+\vfill
+{\small Học kỳ 1, niên khóa 2026--2027}
+\end{titlepage}
+
 \tableofcontents
 \newpage
 
-\section{Giới thiệu}
-Báo cáo này trình bày các test case thiết kế và code tự động hóa cho các nhiệm vụ của thành viên TV5 (Hùng):
-\begin{itemize}
-    \item \textbf{FR-04}: Sắp xếp sản phẩm (4 kiểu sort)
-    \item \textbf{NFR-01}: Hiệu năng (thời gian load $\leq$ 3 giây)
-\end{itemize}
+% ============================================================
+\section{Tổng quan}
 
-% ============================================
-\section{FR-04: Chức năng Sắp xếp}
-% ============================================
-\sectionmark{FR-04: Sắp xếp}
+\subsection{Đề tài và mục tiêu}
+Bài báo cáo trình bày kết quả thực hiện Assignment 1 của môn \textbf{Kiểm thử phần mềm}: kiểm thử
+hộp đen (black-box testing) hệ thống \textbf{SauceDemo}, gồm bốn chức năng
+(FR-01 $\rightarrow$ FR-04) và một yêu cầu phi chức năng (NFR-01). Nội dung được tổ chức theo
+đúng năm nhiệm vụ của đề bài:
 
-\subsection{Yêu cầu chức năng}
-Cho phép người dùng sắp xếp danh sách sản phẩm theo 4 tiêu chí:
-\begin{enumerate}
-    \item Name (A to Z) - Sắp xếp theo tên từ A đến Z
-    \item Name (Z to A) - Sắp xếp theo tên từ Z đến A
-    \item Price (low to high) - Sắp xếp theo giá tăng dần
-    \item Price (high to low) - Sắp xếp theo giá giảm dần
+\begin{enumerate}[label=\textbf{NV\arabic*.},leftmargin=2.4em]
+    \item \textbf{NV1} -- Chạy và mở rộng mã mẫu (Jenkins pipeline mẫu).
+    \item \textbf{NV2} -- Phân tích yêu cầu: đặc tả FR-01 $\rightarrow$ FR-04, NFR-01, đánh giá rủi ro, lập ma trận truy vết.
+    \item \textbf{NV3} -- Thiết kế test case bằng phân lớp tương đương (EP), phân tích giá trị biên (BVA), bảng quyết định (DT) và kiểm thử ca sử dụng (UC).
+    \item \textbf{NV4} -- Thực thi thủ công, ghi kết quả thực tế và lập báo cáo lỗi (BUG).
+    \item \textbf{NV5} -- Tự động hóa bằng JUnit 5 + Selenium WebDriver theo mô hình Page Object.
 \end{enumerate}
 
-\subsection{Kỹ thuật thiết kế: Phân lớp tương đương (EP)}
+Mục tiêu của nhóm là xây dựng một bộ test case có cơ sở (được truy vết về yêu cầu), thực thi
+được trên hệ thống thật, có bằng chứng kèm theo, đồng thời tự động hóa lại bằng mã nguồn để
+tái chạy được trong CI.
 
-\subsubsection{Bảng phân lớp tương đương}
-\begin{table}[h!]
+\subsection{Hệ thống kiểm thử}
+SauceDemo là trang bán hàng mẫu dành riêng cho kiểm thử, gồm trang đăng nhập, trang danh sách
+6 sản phẩm (\texttt{inventory.html}), giỏ hàng (\texttt{cart.html}) và quy trình thanh toán ba
+bước: nhập thông tin (\texttt{checkout-step-one.html}), tổng quan (\texttt{checkout-step-two.html})
+và hoàn tất (\texttt{checkout-complete.html}). Mọi tài khoản dùng chung mật khẩu
+\texttt{secret\_sauce}.
+
+\begin{table}[H]
 \centering
-\caption{Bảng phân lớp tương đương cho FR-04}
-\label{tab:ep-classes}
-\begin{tabular}{cp{6cm}cp{4cm}}
+\caption{Các tài khoản kiểm thử được sử dụng}
+\label{tab:accounts}
+\begin{tabular}{p{5.4cm}p{9.3cm}}
+\toprule
+\textbf{Tài khoản} & \textbf{Đặc điểm sử dụng trong kiểm thử} \\
+\midrule
+\texttt{standard\_user} & Hoạt động bình thường, dùng cho luồng chính (FR-01 $\rightarrow$ FR-04). \\
+\texttt{locked\_out\_user} & Bị khóa; đăng nhập đúng mật khẩu vẫn bị từ chối (FR-01.3). \\
+\texttt{problem\_user} & Có lỗi giao diện cài sẵn; dùng để phát hiện lỗi chức năng (BUG-03). \\
+% \textbf{\texttt{performance\_glitch\_user}} & Bị làm chậm có chủ đích; dùng để đo NFR-01 (BUG-01). \\
+\makecell[l]{\texttt{performance\_}\\\texttt{glitch\_user}} & Bị làm chậm có chủ đích; dùng để đo NFR-01 (BUG-01). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Phạm vi kiểm thử}
+\begin{table}[H]
+\centering
+\caption{Các yêu cầu được kiểm thử trong bài báo cáo}
+\label{tab:scope}
+\begin{tabular}{p{2.2cm}p{9.2cm}p{3.3cm}}
+\toprule
+\textbf{Mã} & \textbf{Nội dung kiểm thử} & \textbf{Kỹ thuật} \\
+\midrule
+FR-01 & Đăng nhập: thông báo lỗi, tài khoản khoá, phân biệt hoa/thường, luồng thành công & DT \\
+FR-02 & Giỏ hàng: badge số lượng, thêm/xoá sản phẩm, ẩn badge khi giỏ rỗng & BVA \\
+FR-03 & Quy trình thanh toán: validate 3 trường, huỷ, tổng tiền/thuế, hoàn tất đơn & UC \\
+FR-04 & Sắp xếp sản phẩm theo tên và giá (4 kiểu sort) & EP, BVA \\
+NFR-01 & Thời gian load trang inventory $\leq 3$ giây (trung vị 5 lần đo) & Performance \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Công cụ và môi trường thực thi}
+\begin{table}[H]
+\centering
+\caption{Môi trường phát triển và kiểm thử}
+\label{tab:env}
+\begin{tabular}{p{5.4cm}p{8.8cm}}
+\toprule
+\textbf{Thành phần} & \textbf{Cấu hình} \\
+\midrule
+Ngôn ngữ / JDK & Java 17 (\texttt{maven.compiler.release=17}) \\
+Framework test & JUnit 5 (Jupiter) 5.11.4, Maven Surefire 3.5.2 \\
+Công cụ trình duyệt & Selenium WebDriver 4.51.0 \\
+Trình duyệt & Google Chrome 153.0.8010.36, hệ điều hành Windows 11 \\
+Mô hình thiết kế & Page Object Pattern, \texttt{WebDriverWait} (explicit wait) \\
+Báo cáo test & \texttt{target/surefire-reports/*.xml}, \texttt{*.txt} \\
+Bằng chứng & Thư mục \texttt{evidence/} (ảnh chụp màn hình, video quay lỗi) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Phân công nhiệm vụ cho các thành viên}
+
+\begin{table}[H]
+\centering
+\caption{Bảng phân công nhiệm vụ theo thành viên}
+\label{tab:roles}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{c c p{2.0cm} p{3.0cm} X c}
+\toprule
+\textbf{Mã TV} & \textbf{MSSV} & \textbf{Họ tên} & \textbf{Phần việc chính} & \textbf{Số TC} \\
+\midrule
+TV1 & 3123410171 & Nguyễn Nhật Đăng Khoa & Trưởng nhóm; NV1, thiết kế DT cho FR-01, thực thi và bằng chứng FR-01 & 8 \\
+TV2 & -- & Thành Nhân & NV1; thiết kế BVA cho FR-02, thực thi và bằng chứng FR-02 & 8 \\
+TV3 & 3124410140 & Trương Gia Khải & UC cho FR-03.1--FR-03.2; phát hiện và báo lỗi BUG-03 & 7 (+1 lỗi) \\
+TV4 & 3123560056 & Nguyễn Thanh Sinh & UC cho FR-03.3--FR-03.6: tổng tiền, hoàn tất đơn, huỷ, nhiều sản phẩm & 4 \\
+TV5 & 3122410136 & Nguyễn Đình Hùng & EP/BVA cho FR-04, đo NFR-01, phát hiện BUG-01, tổng hợp báo cáo & 9 \\
+\midrule
+\multicolumn{4}{r}{\textbf{Tổng cộng}} & \textbf{36} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{NV1 -- Chạy và mở rộng mã mẫu}
+% ============================================================
+
+\subsection{Kết quả chạy mã mẫu}
+Mã nguồn mẫu được cung cấp sẵn với cấu trúc Maven, dùng JUnit 5 và Selenium WebDriver.
+Sau khi cài Selenium Manager tự tải driver tương thích, lệnh \texttt{mvn clean test} chạy thành công:
+
+\begin{verbatim}
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+\end{verbatim}
+
+\subsection{Các mở rộng do nhóm thực hiện}
+\begin{table}[H]
+\centering
+\caption{Mở rộng mã nguồn mẫu của nhóm}
+\label{tab:extend}
+\begin{tabular}{p{5.4cm}p{9.0cm}}
+\toprule
+\textbf{File / thành phần} & \textbf{Nội dung mở rộng} \\
+\midrule
+\texttt{core/WebTestBase.java} & Mở/đóng trình duyệt cho mỗi test, đọc cấu hình \texttt{baseUrl}, \texttt{browser}, \texttt{headless} từ system property. \\
+\texttt{pages/InventoryPage.java} & Page Object cho trang inventory: chọn kiểu sort, đọc tên/giá sản phẩm, đọc badge giỏ hàng, thêm sản phẩm. \\
+\texttt{pages/CartPage.java} & Page Object cho trang giỏ hàng: xoá sản phẩm, đọc danh sách sản phẩm, chờ badge đạt số lượng mong muốn. \\
+\texttt{pages/CheckoutPage.java} & Page Object cho quy trình thanh toán: điền thông tin, đọc lỗi validate, đọc tổng tiền/thuế, hoàn tất và huỷ đơn. \\
+\texttt{resources/login-data.csv} & Bổ sung dữ liệu kiểm thử cho \texttt{LoginTest} dạng tham số hóa. \\
+\texttt{tests/*.java} & 5 lớp test: \texttt{LoginTest}, \texttt{CartTest}, \texttt{CheckoutTest}, \texttt{SortTest}, \texttt{PerformanceTest}. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{NV1-Chrome-Version.png}
+\caption{Bằng chứng phiên bản Chrome dùng để thực thi NV1 (evidence/NV1/NV1-Chrome-Version.png).}
+\label{fig:nv1-chrome}
+\end{figure}
+
+% ============================================================
+\section{NV2 -- Phân tích yêu cầu}
+% ============================================================
+
+\subsection{Đặc tả yêu cầu và đánh giá rủi ro}
+Rủi ro được đánh giá theo công thức $R = P \times I$, trong đó $P$ là xác suất xảy ra lỗi và
+$I$ là mức tác động của lỗi đối với nghiệp vụ. Ba mức phân loại: Cao ($R \geq 10$),
+Trung bình ($6 \leq R < 10$) và Thấp ($R < 6$).
+
+\input{gen_requirements.tex}
+
+Nhận xét: các yêu cầu có rủi ro cao tập trung ở quy trình thanh toán (FR-03.1, FR-03.3,
+FR-03.4, FR-03.6) vì lỗi ở đây trực tiếp chặn người dùng hoàn tất giao dịch và tạo ra thiệt
+hại về doanh thu. Vì vậy nhóm dành nhiều test case nhất cho FR-03 (11 test case, 30\% tổng
+số test case) và ưu tiên kiểm thử thủ công có bằng chứng hình ảnh cho nhóm yêu cầu này.
+
+\subsection{Ma trận truy vết}
+\input{gen_traceability.tex}
+
+Ma trận truy vết cho thấy \textbf{100\% yêu cầu đều có test case tương ứng} và ngược lại mỗi
+test case đều truy vết được về ít nhất một yêu cầu cụ thể. Hai yêu cầu có lỗi phát hiện được
+là NFR-01 (BUG-01) và FR-03.1 (BUG-03).
+
+% ============================================================
+\section{NV3 -- Thiết kế test case}
+% ============================================================
+
+\subsection{Kỹ thuật thiết kế và quy ước đặt tên}
+Bốn kỹ thuật thiết kế được sử dụng, mỗi kỹ thuật được chọn theo đặc điểm của yêu cầu:
+
+\begin{table}[H]
+\centering
+\caption{Kỹ thuật thiết kế test case và lý do lựa chọn}
+\label{tab:tech}
+% \begin{tabular}{p{2.6cm}p{5.2cm}p{10.0cm}}
+\begin{tabular}{p{2.2cm}p{4.2cm}p{20.0cm}}
+\toprule
+\textbf{Kỹ thuật} & \textbf{Áp dụng cho} & \textbf{Lý do lựa chọn} \\
+\midrule
+EP (Phân lớp tương đương) & FR-04 & Đầu vào là tập hữu hạn 4 lựa chọn sort cộng trạng thái mặc định, mỗi lớp tương đương một giá trị hợp lệ. \\
+BVA (Phân tích giá trị biên) & FR-02, FR-04 & Số lượng sản phẩm trong giỏ có miền giá trị hữu hạn $0 \div 6$; giá sản phẩm có giá trị min/max rõ ràng. \\
+DT (Bảng quyết định) & FR-01 & Kết quả đăng nhập phụ thuộc vào tổ hợp nhiều điều kiện (rỗng, sai, khoá) với thứ tự ưu tiên kiểm tra cụ thể. \\
+UC (Kiểm thử ca sử dụng) & FR-03 & Quy trình thanh toán là chuỗi hành động có điều kiện với nhiều nhánh hủy/hoàn tất. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Quy ước đặt mã test case: \texttt{TC-<NHÓM>-<KỸ THUẬT><SỐ>}, ví dụ \texttt{TC-CART-BVA-03},
+\texttt{TC-CHK-02.4}, \texttt{TC-SORT-EP1}. Nhóm: \texttt{LOGIN} (FR-01), \texttt{CART} (FR-02),
+\texttt{CHK} (FR-03), \texttt{SORT} (FR-04), \texttt{NFR} (NFR-01).
+
+\subsection{Phân lớp tương đương -- FR-04 (sắp xếp sản phẩm)}
+\begin{table}[H]
+\centering
+\caption{Các lớp tương đương của FR-04}
+\label{tab:ep-sort}
+\begin{tabular}{p{1.6cm}p{4.6cm}p{2.6cm}p{5.4cm}}
 \toprule
 \textbf{Lớp} & \textbf{Mô tả} & \textbf{Giá trị} & \textbf{Kết quả mong đợi} \\
 \midrule
-EC1 & Chọn sắp xếp Name A->Z & \texttt{az} & Danh sách A->Z \\
-EC2 & Chọn sắp xếp Name Z->A & \texttt{za} & Danh sách Z->A \\
-EC3 & Chọn sắp xếp Price low->high & \texttt{lohi} & Danh sách giá tăng dần \\
-EC4 & Chọn sắp xếp Price high->low & \texttt{hilo} & Danh sách giá giảm dần \\
-EC5 & Không chọn (default) & (mặc định) & Thứ tự mặc định \\
+EC1 & Chọn \textit{Name (A to Z)} & \texttt{az} & Danh sách tên từ A đến Z \\
+EC2 & Chọn \textit{Name (Z to A)} & \texttt{za} & Danh sách tên từ Z đến A \\
+EC3 & Chọn \textit{Price (low to high)} & \texttt{lohi} & Danh sách giá tăng dần \\
+EC4 & Chọn \textit{Price (high to low)} & \texttt{hilo} & Danh sách giá giảm dần \\
+EC5 & Không chọn (mặc định) & -- & Thứ tự mặc định A $\rightarrow$ Z \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Kỹ thuật thiết kế: Phân tích giá trị biên (BVA)}
-\begin{table}[h!]
+\subsection{Phân tích giá trị biên -- FR-02 (giỏ hàng) và FR-04 (giá sản phẩm)}
+\begin{table}[H]
 \centering
-\caption{Boundary Values cho FR-04}
-\label{tab:bva-boundaries}
-\begin{tabular}{cp{4cm}cp{4cm}}
+\caption{Giá trị biên của FR-02 và FR-04}
+\label{tab:bva}
+\begin{tabular}{p{1.3cm}p{3.5cm}p{2.5cm}p{6.4cm}}
 \toprule
-\textbf{Test Case} & \textbf{Giá trị biên} & \textbf{Mong đợi} \\
+\textbf{TC} & \textbf{Yêu cầu} & \textbf{Giá trị biên} & \textbf{Mong đợi} \\
 \midrule
-TC-SORT-BVA1 & Sản phẩm giá thấp nhất (min) & Ở vị trí đầu (sort low->high) \\
-TC-SORT-BVA2 & Sản phẩm giá cao nhất (max) & Ở vị trí đầu (sort high->low) \\
-TC-SORT-BVA3 & Sản phẩm giữa (mid) & Thỏa mãn: prev $\leq$ mid $\leq$ next \\
+TC-CART-BVA-01 & FR-02.2 & Số lượng = 0 (biên dưới) & Badge không hiển thị, giỏ rỗng \\
+TC-CART-BVA-02 & FR-02.2 & Số lượng = 1 (biên dưới + 1) & Badge = 1, giỏ có đúng 1 sản phẩm \\
+TC-CART-BVA-05 & FR-02.2 & Số lượng = 6 (biên trên) & Badge = 6, giỏ có đủ 6 sản phẩm \\
+TC-CART-BVA-06 & FR-02.1 & Xoá 1 từ 6 sản phẩm & Badge giảm 6 $\rightarrow$ 5, còn lại 5 sản phẩm \\
+TC-CART-BVA-07 & FR-02.1 & Xoá 4, giữ lại 1 & Badge = 1, giỏ chỉ còn 1 sản phẩm \\
+TC-CART-BVA-08 & FR-02.2 & Xoá sản phẩm cuối $\rightarrow$ 0 & Badge ẩn, giỏ rỗng \\
+TC-SORT-BVA1 & FR-04.3 & Giá nhỏ nhất \$7.99 & Sản phẩm giá thấp nhất ở vị trí đầu \\
+TC-SORT-BVA2 & FR-04.4 & Giá lớn nhất \$49.99 & Sản phẩm giá cao nhất ở vị trí đầu \\
+TC-SORT-BVA3 & FR-04.1 & Sản phẩm giữa danh sách & Thỏa mãn prev $\leq$ mid $\leq$ next \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Bảng Test Cases chi tiết (FR-04)}
-\begin{longtable}{|p{2.5cm}|p{3cm}|p{2cm}|p{6cm}|p{3cm}|}
-\caption{Danh sách Test Cases cho FR-04}
-\label{tab:fr04-tc} \\
-\hline
-\textbf{TC ID} & \textbf{Tên test} & \textbf{Kỹ thuật} & \textbf{Test Steps} & \textbf{Expected Result} \\
-\hline
-\endfirsthead
-\hline
-\textbf{TC ID} & \textbf{Tên test} & \textbf{Kỹ thuật} & \textbf{Test Steps} & \textbf{Expected Result} \\
-\hline
-\endhead
-\hline
-\endfoot
-TC-SORT-EP1 & Sort Name A->Z & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Name (A to Z)"\end{tabular} & Danh sách A->Z \\
-\hline
-TC-SORT-EP2 & Sort Name Z->A & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Name (Z to A)"\end{tabular} & Danh sách Z->A \\
-\hline
-TC-SORT-EP3 & Sort Price low->high & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Price (low to high)"\end{tabular} & Giá tăng dần \\
-\hline
-TC-SORT-EP4 & Sort Price high->low & EP & \begin{tabular}{l}1. Đăng nhập\\2. Chọn "Price (high to low)"\end{tabular} & Giá giảm dần \\
-\hline
-TC-SORT-EP5 & Default sort & EP & \begin{tabular}{l}1. Đăng nhập\\2. Không thay đổi sort\end{tabular} & Thứ tự mặc định \\
-\hline
-TC-SORT-BVA1 & Boundary - Min price & BVA & \begin{tabular}{l}1. Sort low->high\\2. Kiểm tra vị trí đầu\end{tabular} & Giá min ở đầu \\
-\hline
-TC-SORT-BVA2 & Boundary - Max price & BVA & \begin{tabular}{l}1. Sort high->low\\2. Kiểm tra vị trí đầu\end{tabular} & Giá max ở đầu \\
-\hline
-TC-SORT-BVA3 & Boundary - Mid item & BVA & \begin{tabular}{l}1. Sort A->Z\\2. Kiểm tra sản phẩm giữa\end{tabular} & prev $\leq$ mid $\leq$ next \\
-\hline
-\end{longtable}
+\subsection{Bảng quyết định -- FR-01 (đăng nhập)}
+Bốn điều kiện được xét: \textbf{U} = Username rỗng, \textbf{P} = Password rỗng,
+\textbf{M} = thông tin không khớp hoặc tài khoản không tồn tại, \textbf{L} = tài khoản bị khoá.
+Quy tắc được sắp xếp theo thứ tự ưu tiên từ trên xuống.
 
-% ============================================
-\section{NFR-01: Hiệu năng}
-% ============================================
-\sectionmark{NFR-01: Hiệu năng}
-
-\subsection{Yêu cầu phi chức năng}
-Thời gian load trang inventory phải $\leq$ 3 giây, đo bằng trung vị của 5 lần đo.
-
-\subsection{Test Case NFR-01}
-\begin{table}[h!]
+\begin{table}[H]
 \centering
-\caption{Test Case cho NFR-01}
-\label{tab:nfr01-tc}
-\begin{tabular}{cp{4cm}cp{5cm}}
+\caption{Bảng quyết định cho FR-01}
+\label{tab:dt-login}
+\begin{tabular}{c|c|c|c|c|p{5.4cm}p{2.6cm}}
 \toprule
-\textbf{TC ID} & \textbf{Mô tả} & \textbf{Test Data} & \textbf{Expected Result} \\
+\textbf{Rule} & \textbf{U} & \textbf{P} & \textbf{M} & \textbf{L} & \textbf{Kết quả mong đợi} & \textbf{Test case} \\
 \midrule
-TC-NFR-01 & \begin{tabular}{l}Đo thời gian load\\inventory page\end{tabular} & \begin{tabular}{l}Username: performance\_glitch\_user\\Password: secret\_sauce\end{tabular} & \begin{tabular}{l}Trung vị 5 lần đo $\leq$ 3 giây\end{tabular} \\
+R1 & Yes & -- & -- & -- & \textit{Username is required} & DT1, DT2 \\
+R2 & No & Yes & -- & -- & \textit{Password is required} & DT3 \\
+R3 & No & No & Yes & -- & \textit{Username and password do not match any user in this service} & DT4, DT7, DT8 \\
+R4 & No & No & No & Yes & \textit{Sorry, this user has been locked out.} & DT5 \\
+R5 & No & No & No & No & Đăng nhập thành công, chuyển tới \texttt{inventory.html} & DT6 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Kết quả test hiệu năng (dự kiến)}
-\begin{itemize}
-    \item \textbf{baseline} (standard\_user): $\approx$ 1-2 giây $\rightarrow$ PASS
-    \item \textbf{performance\_glitch\_user}: $\approx$ 5 giây $\rightarrow$ FAIL (BUG-01)
-\end{itemize}
+\subsection{Kiểm thử ca sử dụng -- FR-03 (quy trình thanh toán)}
+\begin{table}[H]
+\centering
+\caption{Các ca sử dụng của FR-03 và test case tương ứng}
+\label{tab:uc-checkout}
+\begin{tabular}{p{1.3cm}p{5.0cm}p{3.0cm}p{4.9cm}}
+\toprule
+\textbf{UC} & \textbf{Mô tả ca sử dụng} & \textbf{Test case} & \textbf{Kết quả} \\
+\midrule
+UC-01 & Điền đủ First Name, Last Name, Postal Code và tiếp tục & TC-CHK-01 & Chuyển sang \texttt{checkout-step-two.html} \\
+UC-02 & Thiếu một hoặc nhiều trường bắt buộc & TC-CHK-02.1--02.5 & Báo lỗi theo thứ tự First $\rightarrow$ Last $\rightarrow$ Postal \\
+UC-03 & Huỷ tại bước nhập thông tin & TC-CHK-03 & Quay lại \texttt{cart.html}, giỏ giữ nguyên sản phẩm \\
+UC-04 & Kiểm tra tổng tiền, thuế 8\% tại Overview & TC-CHK-04 & Item total \$29.99, Tax \$2.40, Total \$32.39 \\
+UC-05 & Hoàn tất đơn hàng & TC-CHK-05 & Hiện \textit{Thank you for your order!}, ẩn badge giỏ hàng \\
+UC-06 & Huỷ tại Overview & TC-CHK-06 & Quay lại \texttt{inventory.html}, giỏ giữ nguyên sản phẩm \\
+UC-07 & Thanh toán với nhiều sản phẩm & TC-CHK-07 & Item total \$39.98, Tax \$3.20, Total \$43.18 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-% ============================================
-\section{Code Tự động hóa}
-% ============================================
-\sectionmark{Code Automation}
+\subsection{Bảng test case chi tiết}
+Bảng dưới đây liệt kê đầy đủ 36 test case của nhóm, sinh trực tiếp từ tệp
+\texttt{test-cases.xlsx} bằng script \texttt{latex/gen\_tables.py}.
 
-\subsection{Mã nguồn SortTest.java}
-\begin{listing}[H]
-\inputminted[frame=single, linenos]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/SortTest.java}
-\caption{SortTest.java}
+\input{gen_testcases.tex}
+
+% ============================================================
+\section{NV4 -- Thực thi thủ công và báo lỗi}
+% ============================================================
+
+\subsection{Cách thực thi}
+Mỗi test case được thực thi thủ công trên trình duyệt Chrome trên Windows 11, thông tin
+đăng nhập và kết quả thực tế được ghi lại kèm ảnh chụp màn hình trong thư mục
+\texttt{evidence/}. Trường hợp kết quả thực tế khác kết quả mong đợi được lập báo cáo lỗi
+riêng theo mẫu BUG-xx.
+
+\subsection{Kết quả thực thi}
+\input{gen_execution.tex}
+
+Một số hình ảnh bằng chứng tiêu biểu cho từng nhóm yêu cầu được thể hiện dưới đây.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{FR-02-AfterRun.png}
+\caption{Bằng chứng thực thi FR-02 -- trạng thái giỏ hàng sau đợt kiểm thử (evidence/FR-02/FR-02-AfterRun.png).}
+\label{fig:fr02}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{TC-SORT-EP1.png}
+\caption{Bằng chứng thực thi TC-SORT-EP1 -- sắp xếp sản phẩm theo tên A $\rightarrow$ Z (evidence/FR-04/TC-SORT-EP1.png).}
+\label{fig:sort1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{TC-CHK-04-overview.png}
+\caption{Bằng chứng thực thi TC-CHK-04 -- trang Checkout Overview hiển thị đúng tổng tiền và thuế (evidence/NV4/TC-CHK-04-overview.png).}
+\label{fig:chk04}
+\end{figure}
+
+\subsection{Tổng hợp kết quả thực thi}
+\begin{table}[H]
+\centering
+\caption{Tổng hợp kết quả thực thi theo thành viên và theo yêu cầu}
+\label{tab:exec-summary}
+\begin{tabularx}{\textwidth}{p{4.3cm} X c c c c}
+\toprule
+\textbf{Nhóm test} & \textbf{Người thực hiện} & \textbf{Số lần chạy} & \textbf{Pass} & \textbf{Fail} & \textbf{Lỗi phát hiện} \\
+\midrule
+FR-01 (LoginTest) & Nguyễn Nhật Đăng Khoa & 8 & 8 & 0 & -- \\
+FR-02 (CartTest) & Thành Nhân & 8 & 8 & 0 & -- \\
+FR-03 (CheckoutTest) & Trương Gia Khải & 8 & 7 & 1 & BUG-03 \\
+FR-03 (CheckoutTest) & Thanh Sinh & 4 & 4 & 0 & -- \\
+FR-04 + NFR-01 (SortTest, PerformanceTest) & Nguyễn Đình Hùng & 9 & 8 & 1 & BUG-01 \\
+\midrule
+\multicolumn{2}{r}{\textbf{Tổng cộng}} & \textbf{37} & \textbf{35} & \textbf{2} & \textbf{2 lỗi} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Tỷ lệ đạt của toàn bộ test case là $35/37 \approx 94{,}6\%$. Hai test case \textbf{FAIL} là
+các test case đã được gắn mã lỗi theo đúng quy trình của đề bài: kết quả sai được ghi thành
+lỗi (BUG-xx) rồi vẫn được xét tự động hóa, không sửa assertion để ép chuyển sang PASS.
+
+\subsection{Báo cáo lỗi BUG-01 -- Trang inventory load chậm hơn 3 giây}
+\begin{table}[H]
+\centering
+\caption{Chi tiết lỗi BUG-01}
+\label{tab:bug01}
+\begin{tabular}{p{3.2cm}p{11.2cm}}
+\toprule
+\textbf{Trường} & \textbf{Nội dung} \\
+\midrule
+Mã / Tiêu đề & BUG-01: Trang inventory load chậm hơn 3 giây với \texttt{performance\_glitch\_user} \\
+Mức nghiêm trọng & Medium \\
+Môi trường & Chrome 153.0.8010.36, 21/10/2026 \\
+Tiền điều kiện & Đăng nhập bằng \texttt{performance\_glitch\_user} / \texttt{secret\_sauce} \\
+Bước tái hiện & 1. Đăng nhập với \texttt{performance\_glitch\_user}; 2. Đo thời gian load trang inventory; 3. Lặp 5 lần, tính trung vị \\
+Kết quả mong đợi & Trung vị thời gian load $\leq 3$ giây \\
+Kết quả thực tế & Trung vị 5 lần đo = \textbf{5.162 giây}, vượt ngưỡng 3s. Các lần đo: [5.149s, 5.152s, 5.162s, 5.167s, 5.173s]. Baseline với \texttt{standard\_user} chỉ 0.113s. \\
+Bằng chứng & \texttt{evidence/FR-04/TC-NFR-01.png}, \texttt{evidence/FR-04/BUG-01.mp4} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{TC-NFR-01.png}
+\caption{Bằng chứng đo thời gian load trang inventory với \texttt{performance\_glitch\_user} (TC-NFR-01).}
+\label{fig:nfr01}
+\end{figure}
+
+\subsection{Báo cáo lỗi BUG-03 -- Không nhập được Last Name với \texttt{problem\_user}}
+\begin{table}[H]
+\centering
+\caption{Chi tiết lỗi BUG-03}
+\label{tab:bug03}
+\begin{tabular}{p{3.2cm}p{11.2cm}}
+\toprule
+\textbf{Trường} & \textbf{Nội dung} \\
+\midrule
+Mã / Tiêu đề & BUG-03: Không nhập được Last Name ở \texttt{checkout-step-one.html} với \texttt{problem\_user}, ký tự gõ vào bị ghi đè lên First Name \\
+Mức nghiêm trọng & Critical: người dùng không thể hoàn tất thanh toán, chặn hoàn toàn luồng mua hàng (FR-03) \\
+Môi trường & Chrome, Windows 11, 19/10/2026 \\
+Tiền điều kiện & Đăng nhập bằng \texttt{problem\_user} / \texttt{secret\_sauce}; giỏ có \textit{Sauce Labs Backpack}; đang ở \texttt{cart.html} \\
+Bước tái hiện & 1. Nhấn Checkout; 2. Nhập First Name = An; 3. Click vào ô Last Name, gõ ``Nguyen'' \\
+Kết quả mong đợi & Ô Last Name hiển thị ``Nguyen'', ô First Name giữ nguyên ``An'' (FR-03.1) \\
+Kết quả thực tế & Ô Last Name vẫn trống; mỗi ký tự gõ vào thay thế toàn bộ nội dung ô First Name. Không thể nhập Last Name nên không thể sang \texttt{checkout-step-two.html} \\
+Bằng chứng & \texttt{evidence/P1/BUG-03.mp4}, \texttt{evidence/P1/BUG-03.png} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{BUG-03.png}
+\caption{Bằng chứng lỗi BUG-03: ký tự nhập vào ô Last Name bị ghi đè lên ô First Name (TC-CHK03.1).}
+\label{fig:bug03}
+\end{figure}
+
+% ============================================================
+\section{NV5 -- Tự động hóa bằng JUnit 5 và Selenium WebDriver}
+% ============================================================
+
+\subsection{Cấu trúc mã nguồn và vai trò các lớp}
+\begin{table}[H]
+\centering
+\caption{Cấu trúc mã nguồn tự động hóa của nhóm}
+\label{tab:structure}
+\begin{tabular}{p{6.2cm}p{8.2cm}}
+\toprule
+\textbf{File} & \textbf{Trách nhiệm} \\
+\midrule
+\texttt{core/WebTestBase.java} & Khởi tạo/đóng WebDriver mỗi test, cấu hình trình duyệt và \texttt{baseUrl} qua system property. \\
+\texttt{pages/LoginPage.java} & Locator và thao tác trên trang đăng nhập; \texttt{login()} trả về \texttt{LoginResult} (accepted, message, currentUrl). \\
+\texttt{pages/InventoryPage.java} & Chọn kiểu sort, đọc tên/giá sản phẩm, đọc badge giỏ hàng, thêm sản phẩm. \\
+\texttt{pages/CartPage.java} & Xoá sản phẩm, đọc danh sách sản phẩm, chờ badge đạt số lượng mong muốn. \\
+\texttt{pages/CheckoutPage.java} & Điền thông tin thanh toán, đọc thông báo lỗi, đọc Item total/Tax/Total, Finish và Cancel. \\
+\texttt{tests/LoginTest.java} & 8 test case DT của FR-01, chạy tham số hóa bằng \texttt{@CsvFileSource}. \\
+\texttt{tests/CartTest.java} & 8 test case BVA của FR-02, tham số hóa bằng \texttt{@CsvSource}. \\
+\texttt{tests/CheckoutTest.java} & 11 test case UC của FR-03, gồm test đánh dấu lỗi đã biết \texttt{@Tag("known-bug")}. \\
+\texttt{tests/SortTest.java} & 8 test case EP/BVA của FR-04, kết hợp \texttt{@ValueSource}, \texttt{@MethodSource}, \texttt{@CsvSource}. \\
+\texttt{tests/PerformanceTest.java} & Đo NFR-01 (trung vị 5 lần đo) và baseline so sánh. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Test tham số hóa cho FR-01 -- LoginTest.java}
+\texttt{LoginTest} đọc dữ liệu từ \texttt{login-data.csv}; mỗi dòng là một test case gồm
+username, password, kết quả mong đợi và bằng chứng (URL hoặc thông báo lỗi). Assertion so
+sánh trạng thái đăng nhập và kiểm tra bằng chứng có xuất hiện trên trang.
+
+\begin{center}
+\inputminted[frame=single, linenos, breaklines=true, fontsize=\footnotesize]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/LoginTest.java}
+\captionof{listing}{LoginTest.java -- kiểm thử tham số hóa FR-01 bằng dữ liệu CSV}
+\label{lst:logintest}
+\end{center}
+
+\subsection{Test tham số hóa cho FR-02 -- CartTest.java}
+
+\begin{center}
+\inputminted[frame=single, linenos, breaklines=true, fontsize=\footnotesize]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/CartTest.java}
+\captionof{listing}{CartTest.java -- kiểm thử tham số hóa FR-02 bằng \texttt{@CsvSource}}
+\label{lst:carttest}
+
+
+\end{center}
+
+
+\subsection{Kiểm thử ca sử dụng cho FR-03 -- CheckoutTest.java}
+
+\begin{center}
+\inputminted[frame=single, linenos, breaklines=true, fontsize=\footnotesize]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/CheckoutTest.java}
+\captionof{listing}{CheckoutTest.java -- kiểm thử FR-03, gồm test lỗi đã biết được gắn \texttt{@Tag("known-bug")}}
+\label{lst:checkouttest}
+
+
+\end{center}
+
+
+\subsection{Kiểm tra sắp xếp FR-04 -- SortTest.java}
+
+\begin{center}
+\inputminted[frame=single, linenos, breaklines=true, fontsize=\footnotesize]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/SortTest.java}
+\captionof{listing}{SortTest.java -- kiểm thử FR-04 kết hợp \texttt{@ValueSource}, \texttt{@MethodSource} và \texttt{@CsvSource}}
 \label{lst:sorttest}
-\end{listing}
 
-\subsection{Mã nguồn PerformanceTest.java}
-\begin{listing}[H]
-\inputminted[frame=single, linenos]{java}{automation/src/test/java/vn/edu/softwaretesting/tests/PerformanceTest.java}
-\caption{PerformanceTest.java}
+
+\end{center}
+
+
+\subsection{Đo NFR-01 và đánh dấu lỗi đã biết -- PerformanceTest.java}
+Test đo thời gian load trang inventory 5 lần, tính trung vị rồi so sánh với ngưỡng 3 giây.
+Khi thất bại do lỗi đã biết của hệ thống, test được gắn mã lỗi tương ứng trong
+\texttt{@DisplayName} thay vì sửa điều kiện kiểm tra.
+
+\begin{center}
+\inputminted[frame=single, linenos, breaklines=true, fontsize=\footnotesize]{java}{../automation/src/test/java/vn/edu/softwaretesting/tests/PerformanceTest.java}
+\captionof{listing}{PerformanceTest.java -- đo hiệu năng và gắn mã BUG-01}
 \label{lst:perftest}
-\end{listing}
+\end{center}
 
-% ============================================
-\section{Kết luận}
-% ============================================
-\sectionmark{Kết luận}
-
-\subsection{Tổng kết số lượng test cases}
-\begin{table}[h!]
+\subsection{Kết quả chạy tự động}
+\begin{table}[H]
 \centering
-\caption{Tổng kết test cases của TV5}
-\label{tab:summary}
-\begin{tabular}{lcc}
+\caption{Kết quả chạy \texttt{mvn -B test} ngày 21/10/2026 (lần chạy đầy đủ)}
+\label{tab:mvnrun}
+\begin{tabular}{p{5.0cm}p{2.4cm}p{2.2cm}p{5.4cm}}
 \toprule
-\textbf{Kỹ thuật} & \textbf{Số lượng TC thiết kế} & \textbf{Số lượng TC code} \\
+\textbf{Lớp test} & \textbf{Số test} & \textbf{Kết quả} & \textbf{Ghi chú} \\
 \midrule
-EP (Equivalence Partitioning) & 5 & 7 \\
-BVA (Boundary Value Analysis) & 3 & 2 \\
-Performance & 1 & 2 \\
+\texttt{LoginTest} & 5 & Pass & Chạy từ \texttt{login-data.csv} \\
+\texttt{SortTest} & 14 & Pass & 8 test case thiết kế, có thêm các biến thể tham số hóa \\
+\texttt{PerformanceTest} & 2 & 1 Pass, 1 Fail & Fail do BUG-01 (trung vị 5.162s $>$ 3s) \\
 \midrule
-\textbf{Tổng cộng} & \textbf{9} & \textbf{9} \\
+\textbf{Tổng} & \textbf{21} & \textbf{20 Pass, 1 Fail} & \texttt{Tests run: 21, Failures: 1, Errors: 0} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Điểm đạt được}
-\begin{itemize}
-    \item[\checkmark] Thiết kế $\geq$ 8 test cases cho FR-04 (thực tế: 8 TC)
-    \item[\checkmark] 1 test case cho NFR-01
-    \item[\checkmark] Code $\geq$ 3 test cases cho FR-04 (thực tế: 7 TC)
-    \item[\checkmark] Sử dụng @ParameterizedTest với @ValueSource và @MethodSource
-    \item[\checkmark] Sử dụng Page Object pattern (InventoryPage.java)
-    \item[\checkmark] Sử dụng WebDriverWait (không dùng Thread.sleep)
+\begin{verbatim}
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
+    -- in vn.edu.softwaretesting.tests.SortTest
+[ERROR] Failures:
+[ERROR]   PerformanceTest.testInventoryPageLoadTime:94
+[ERROR]     Trung vị thời gian load phải <= 3.0 giây
+[ERROR]     (thực tế: 5.162 giây)
+[ERROR]     ==> expected: <true> but was: <false>
+[INFO] Tests run: 21, Failures: 1, Errors: 0, Skipped: 0
+[INFO] BUILD FAILURE
+\end{verbatim}
+
+Hai lớp \texttt{CartTest} và \texttt{CheckoutTest} được viết sau đó (tổng 20 lần chạy) và được
+chạy riêng với lệnh \texttt{mvn test "-Dtest=CheckoutTest" "-Dheadless=false"}. Tổng số test tự
+động hóa của nhóm là \textbf{41} lần chạy, trong đó 39 lần PASS và 2 lần FAIL có chủ đích
+(lỗi BUG-01 của hệ thống trong \texttt{PerformanceTest} và lỗi BUG-03 được gắn
+\texttt{@Tag("known-bug")} trong \texttt{CheckoutTest}).
+
+\subsection{Nhận xét về chất lượng tự động hóa}
+\begin{itemize}[label={[\checkmark]}]
+    \item Toàn bộ test dùng \texttt{WebDriverWait} (explicit wait), không dùng \texttt{Thread.sleep}.
+    \item Định vị (locator) được tách hoàn toàn vào các lớp Page Object, lớp test chỉ chứa assertion và dữ liệu.
+    \item Dữ liệu test được đưa ra ngoài bằng \texttt{@CsvFileSource}, \texttt{@CsvSource}, \texttt{@ValueSource} và \texttt{@MethodSource}.
+    \item Test FAIL do lỗi hệ thống được gắn mã BUG trong \texttt{@DisplayName} / \texttt{@Tag("known-bug")}, không sửa assertion.
+    \item Mỗi test chạy trên một phiên trình duyệt sạch nhờ vòng đời \texttt{@BeforeEach} / \texttt{@AfterEach}.
 \end{itemize}
 
-\subsection{Bug phát hiện}
-\begin{itemize}
-    \item \textbf{BUG-01}: Trang inventory load chậm ($\approx$ 5 giây) khi sử dụng tài khoản \texttt{performance\_glitch\_user}, vượt ngưỡng 3 giây theo yêu cầu NFR-01.
+% ============================================================
+\section{Đánh giá kết quả và kết luận}
+% ============================================================
+
+\subsection{Bảng tổng hợp số lượng test case}
+\begin{table}[H]
+\centering
+\caption{Tổng hợp số lượng test case theo yêu cầu và theo kỹ thuật}
+\label{tab:summary}
+\begin{tabular}{p{2.0cm}p{2.4cm}p{2.0cm}p{2.2cm}c c c}
+\toprule
+\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{TC thiết kế} & \textbf{TC thực thi} & \textbf{Pass} & \textbf{Fail} & \textbf{Lỗi} \\
+\midrule
+FR-01 & DT & 8 & 8 & 8 & 0 & -- \\
+FR-02 & BVA & 8 & 8 & 8 & 0 & -- \\
+FR-03 & UC & 11 & 12 & 11 & 1 & BUG-03 \\
+FR-04 & EP, BVA & 8 & 8 & 8 & 0 & -- \\
+NFR-01 & Performance & 1 & 1 & 0 & 1 & BUG-01 \\
+\midrule
+\multicolumn{3}{r}{\textbf{Tổng cộng}} & \textbf{37} & \textbf{35} & \textbf{2} & \textbf{2} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kết quả đạt được}
+\begin{itemize}[label={[\checkmark]}]
+    \item Phân tích đầy đủ 15 yêu cầu (4 nhóm chức năng gồm 14 mã FR và 1 yêu cầu phi chức năng), đánh giá rủi ro theo $R = P \times I$ và lập ma trận truy vết có 100\% độ phủ.
+    \item Thiết kế 36 test case sử dụng đủ bốn kỹ thuật yêu cầu: EP, BVA, DT và UC.
+    \item Thực thi 37 lượt test thủ công với bằng chứng hình ảnh/video cho mỗi nhóm yêu cầu, đạt 94{,}6\% (35/37).
+    \item Phát hiện và lập báo cáo 2 lỗi: BUG-01 (hiệu năng, Medium) và BUG-03 (chức năng, Critical).
+    \item Tự động hóa 5 lớp test với mô hình Page Object, 41 lần chạy tự động, 39 lần PASS và 2 lần FAIL do lỗi đã biết của hệ thống.
 \end{itemize}
 
+\subsection{Hạn chế}
+\begin{itemize}[label={[\(\times\)]}]
+    \item BUG-03 chỉ được tái hiện thủ công, chưa có test tự động chạy ổn định trên \texttt{problem\_user} do hành vi ghi đè phụ thuộc thao tác chuột.
+    \item Phần lớn bằng chứng thu được bằng thao tác tay, chưa tự động gắn ảnh chụp màn hình vào lúc test FAIL.
+    \item Chưa có kiểm thử tương thích trên nhiều trình duyệt và nhiều kích thước màn hình trong phạm vi thời gian của Assignment 1.
+    \item Chưa đo tải (load test) với nhiều người dùng đồng thời, NFR-01 mới chỉ đo một người dùng.
+\end{itemize}
+
+\subsection{Hướng phát triển}
+\begin{itemize}
+    \item Bổ sung \texttt{ScreenshotOnFailure} extension của Selenium để tự động lưu ảnh và video cho mọi test FAIL, phục vụ báo cáo lỗi.
+    \item Viết script CI (GitHub Actions) chạy \texttt{mvn test} theo lịch và đóng gói báo cáo Surefire.
+    \item Mở rộng ma trận truy vết cho các yêu cầu còn thiếu test cho nhiều trình duyệt (Firefox, Edge) và bổ sung kiểm thử giao diện responsive.
+\end{itemize}
+
+% ============================================================
 \newpage
 \section*{Phụ lục}
 \addcontentsline{toc}{section}{Phụ lục}
 
-\subsection*{Cấu trúc thư mục automation}
+\subsection*{A. Danh mục bằng chứng}
+\begin{table}[H]
+\centering
+\caption{Danh mục bằng chứng trong thư mục \texttt{evidence/}}
+\label{tab:evidence}
+\begin{tabular}{p{4.8cm}p{9.6cm}}
+\toprule
+\textbf{Đường dẫn} & \textbf{Nội dung} \\
+\midrule
+\texttt{evidence/NV1/} & Ảnh chụp màn hình NV1: phiên bản Chrome, phiên bản Java, trước/sau khi thêm sản phẩm. \\
+\texttt{evidence/FR-02/} & Ảnh kết quả thực thi FR-02 (giỏ hàng) sau đợt chạy. \\
+\texttt{evidence/FR-04/} & Ảnh 8 test case FR-04 (EP1--EP5, BVA1--BVA3), ảnh TC-NFR-01, log đo hiệu năng và video BUG-01. \\
+\texttt{evidence/NV4/} & Ảnh các test case FR-03 của NV4: TC-CHK-04 (overview/finish), TC-CHK-05, TC-CHK-06, TC-CHK-07. \\
+\texttt{evidence/P1/} & Ảnh 7 test case FR-03 phần 1 (TC-CHK-01, 02.1--02.5, 03) và bằng chứng BUG-03. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{B. Cấu trúc thư mục dự án}
 \begin{verbatim}
-automation/
-+-- pom.xml
-+-- src/test/java/vn/edu/softwaretesting/
-    +-- core/
-    |   +-- WebTestBase.java
-    +-- pages/
-    |   +-- LoginPage.java
-    |   +-- InventoryPage.java
-    +-- tests/
-        +-- LoginTest.java
-        +-- SortTest.java      <-- TV5
-        +-- PerformanceTest.java <-- TV5
+group-XX-assignment1/
++-- pom.xml (trong automation/)
++-- automation/
+|   +-- pom.xml
+|   +-- src/test/java/vn/edu/softwaretesting/
+|   |   +-- core/
+|   |   |   +-- WebTestBase.java
+|   |   +-- pages/
+|   |   |   +-- LoginPage.java
+|   |   |   +-- InventoryPage.java
+|   |   |   +-- CartPage.java
+|   |   |   +-- CheckoutPage.java
+|   |   +-- tests/
+|   |       +-- LoginTest.java
+|   |       +-- CartTest.java
+|   |       +-- CheckoutTest.java
+|   |       +-- SortTest.java
+|   |       +-- PerformanceTest.java
+|   +-- src/test/resources/
+|       +-- login-data.csv
++-- evidence/            (anh chup man hinh, video loi)
++-- latex/               (bao cao LaTeX)
++-- test-cases.xlsx      (tep Excel test case)
 \end{verbatim}
 
-\subsection*{Cách chạy tests}
+\subsection*{C. Cách chạy test}
 \begin{verbatim}
-# Chạy tất cả tests
+# Chay tat ca test
 mvn clean test
 
-# Chạy chỉ SortTest
-mvn test -Dtest=SortTest
+# Chay voi giao dien tren Chrome
+mvn test -Dheadless=false -Dbrowser=chrome
 
-# Chạy chỉ PerformanceTest
+# Chay rieng tung lop test
+mvn test -Dtest=LoginTest
+mvn test -Dtest=CartTest
+mvn test -Dtest=CheckoutTest
+mvn test -Dtest=SortTest
 mvn test -Dtest=PerformanceTest
+
+# Chay tren Firefox voi he thong khac
+mvn test -Dbrowser=firefox -DbaseUrl=http://localhost:8080 -Dheadless=true
+\end{verbatim}
+
+\subsection*{D. Sinh lại các bảng trong báo cáo}
+Các bảng trong mục 3.1, 3.3, 4.8 và 5.2 được sinh tự động từ tệp \texttt{test-cases.xlsx}
+bằng script Python, nên dữ liệu trong báo cáo luôn khớp với tệp Excel nộp kèm:
+\begin{verbatim}
+python3 latex/gen_tables.py
 \end{verbatim}
 
 \end{document}

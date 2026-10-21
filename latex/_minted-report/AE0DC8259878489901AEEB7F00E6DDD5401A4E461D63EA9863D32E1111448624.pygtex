@@ -1,0 +1,99 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
+
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertEquals}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertFalse}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.BeforeEach}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Tag}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.ParameterizedTest}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.provider.CsvSource}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.core.WebTestBase}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.CartPage}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.InventoryPage}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.LoginPage}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.LoginPage.LoginResult}\PYG{p}{;}
+
+\PYG{n+nd}{@Tag}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}web\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}FR\PYGZhy{}CART: Shopping cart\PYGZdq{}}\PYG{p}{)}
+\PYG{k+kd}{class} \PYG{n+nc}{CartTest}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{WebTestBase}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nd}{@BeforeEach}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{loginAsStandardUser}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{LoginResult}\PYG{+w}{ }\PYG{n}{result}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{baseUrl}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{login}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}standard\PYGZus{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}secret\PYGZus{}sauce\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{result}\PYG{p}{.}\PYG{n+na}{accepted}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Could not log in as standard\PYGZus{}user: \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{.}\PYG{n+na}{message}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}\PYG{p}{(}\PYG{n}{name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CART\PYGZhy{}AUTO\PYGZhy{}\PYGZob{}index\PYGZcb{}: add products and check badge\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@CsvSource}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}backpack, \PYGZsq{}Sauce Labs Backpack\PYGZsq{}, sauce\PYGZhy{}labs\PYGZhy{}bike\PYGZhy{}light, \PYGZsq{}Sauce Labs Bike Light\PYGZsq{}\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}bolt\PYGZhy{}t\PYGZhy{}shirt, \PYGZsq{}Sauce Labs Bolt T\PYGZhy{}Shirt\PYGZsq{}, sauce\PYGZhy{}labs\PYGZhy{}fleece\PYGZhy{}jacket, \PYGZsq{}Sauce Labs Fleece Jacket\PYGZsq{}\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}onesie, \PYGZsq{}Sauce Labs Onesie\PYGZsq{}, sauce\PYGZhy{}labs\PYGZhy{}backpack, \PYGZsq{}Sauce Labs Backpack\PYGZsq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{addingProductsShouldUpdateBadgeAndCartContents}\PYG{p}{(}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{firstSlug}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{firstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{secondSlug}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{secondName}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{assertFalse}\PYG{p}{(}\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{isCartBadgeDisplayed}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Badge should be hidden when the cart is empty\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{addProduct}\PYG{p}{(}\PYG{n}{firstSlug}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getCartBadgeCount}\PYG{p}{());}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{addProduct}\PYG{p}{(}\PYG{n}{secondSlug}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}2\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getCartBadgeCount}\PYG{p}{());}
+
+\PYG{+w}{        }\PYG{n}{CartPage}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{openCart}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{size}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{contains}\PYG{p}{(}\PYG{n}{firstName}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{contains}\PYG{p}{(}\PYG{n}{secondName}\PYG{p}{));}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}\PYG{p}{(}\PYG{n}{name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CART\PYGZhy{}AUTO\PYGZhy{}\PYGZob{}index\PYGZcb{}: remove one product\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@CsvSource}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}backpack, \PYGZsq{}Sauce Labs Backpack\PYGZsq{}, sauce\PYGZhy{}labs\PYGZhy{}bike\PYGZhy{}light, \PYGZsq{}Sauce Labs Bike Light\PYGZsq{}\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}bolt\PYGZhy{}t\PYGZhy{}shirt, \PYGZsq{}Sauce Labs Bolt T\PYGZhy{}Shirt\PYGZsq{}, sauce\PYGZhy{}labs\PYGZhy{}fleece\PYGZhy{}jacket, \PYGZsq{}Sauce Labs Fleece Jacket\PYGZsq{}\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{removingProductShouldUpdateBadgeAndKeepOtherProduct}\PYG{p}{(}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{removedSlug}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{removedName}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{remainingSlug}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{remainingName}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{CartPage}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{addProduct}\PYG{p}{(}\PYG{n}{removedSlug}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{addProduct}\PYG{p}{(}\PYG{n}{remainingSlug}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{openCart}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{removeProduct}\PYG{p}{(}\PYG{n}{removedSlug}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForCartBadgeCount}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{size}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{contains}\PYG{p}{(}\PYG{n}{remainingName}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{assertFalse}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{contains}\PYG{p}{(}\PYG{n}{removedName}\PYG{p}{));}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}1\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getCartBadgeCount}\PYG{p}{());}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}\PYG{p}{(}\PYG{n}{name}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}CART\PYGZhy{}AUTO\PYGZhy{}\PYGZob{}index\PYGZcb{}: remove final product\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@CsvSource}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}backpack\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}bike\PYGZhy{}light\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{l+s}{\PYGZdq{}sauce\PYGZhy{}labs\PYGZhy{}onesie\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{removingFinalProductShouldEmptyCartAndHideBadge}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{productSlug}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{CartPage}\PYG{+w}{ }\PYG{n}{cartPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{addProduct}\PYG{p}{(}\PYG{n}{productSlug}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{openCart}\PYG{p}{()}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{removeProduct}\PYG{p}{(}\PYG{n}{productSlug}\PYG{p}{)}
+\PYG{+w}{                }\PYG{p}{.}\PYG{n+na}{waitForCartBadgeToDisappear}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{getProductNames}\PYG{p}{().}\PYG{n+na}{isEmpty}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Cart should be empty after removing its final product\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertFalse}\PYG{p}{(}\PYG{n}{cartPage}\PYG{p}{.}\PYG{n+na}{isCartBadgeDisplayed}\PYG{p}{(),}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Badge should be hidden when the cart is empty\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

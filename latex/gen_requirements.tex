@@ -1,0 +1,48 @@
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{|p{1.9cm}|p{5.6cm}|c|c|c|p{1.8cm}|}
+\caption{Đặc tả yêu cầu chức năng và phi chức năng kèm đánh giá rủi ro}
+\label{tab:requirements} \\
+\hline
+\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
+\hline
+\endhead
+\hline \endfoot
+FR-01.1 & Hệ thống cho phép đăng nhập thành công với tài khoản hợp lệ (username phân biệt hoa/thường). & 2 & 4 & 8 & Trung bình \\
+\hline
+FR-01.2 & Hệ thống hiển thị lỗi "Username is required" khi bỏ trống user, hoặc "Password is required" khi bỏ trống pass. & 3 & 3 & 9 & Trung bình \\
+\hline
+FR-01.3 & Hệ thống chặn và báo lỗi khi nhập sai thông tin hoặc tài khoản đang bị khóa (locked\_\allowbreak{}out\_\allowbreak{}user). & 2 & 5 & 10 & Cao \\
+\hline
+FR-02.1 & Người dùng có thể thêm sản phẩm từ trang Inventory vào giỏ hàng và xóa sản phẩm khỏi giỏ; nội dung giỏ hàng phải phản ánh đúng các thao tác đó. & 2 & 4 & 8 & Trung bình \\
+\hline
+FR-02.2 & Badge giỏ hàng hiển thị đúng số lượng sản phẩm từ 1 đến 6, cập nhật khi thêm/xóa sản phẩm và ẩn khi giỏ hàng rỗng. & 2 & 2 & 4 & Thấp \\
+\hline
+FR-03.1 & Ở checkout-step-one, First Name, Last Name, Postal Code đều bắt buộc và được kiểm tra theo thứ tự First $\rightarrow$ Last $\rightarrow$ Postal. Thiếu trường nào hiển thị "Error: <Tên trường> is required". Đủ 3 trường thì chuyển sang checkout-step-two.html. & 3 & 4 & 12 & Cao \\
+\hline
+FR-03.2 & Nhấn Cancel ở checkout-step-one quay về cart.html, giỏ hàng giữ nguyên sản phẩm. & 2 & 3 & 6 & Trung bình \\
+\hline
+FR-03.3 & Tại Checkout Overview, hệ thống hiển thị đúng tổng tiền sản phẩm, thuế 8\% và tổng thanh toán. & 3 & 4 & 12 & Cao \\
+\hline
+FR-03.4 & Khi nhấn Finish tại Overview, hệ thống hoàn tất đơn hàng, hiển thị thông báo "Thank you for your order!" và ẩn badge giỏ hàng. & 3 & 5 & 15 & Cao \\
+\hline
+FR-03.5 & Khi nhấn Cancel tại Overview, hệ thống quay về Inventory và vẫn giữ các sản phẩm trong giỏ hàng. & 2 & 3 & 6 & Trung bình \\
+\hline
+FR-03.6 & Hệ thống hỗ trợ thanh toán nhiều sản phẩm, tính đúng tổng giá trị đơn hàng và thuế, đồng thời hoàn tất đặt hàng. & 3 & 4 & 12 & Cao \\
+\hline
+FR-04.1 & Hệ thống cho phép sắp xếp danh sách sản phẩm theo tên từ A đến Z (Name A$\rightarrow$Z). & 2 & 4 & 8 & Trung bình \\
+\hline
+FR-04.2 & Hệ thống cho phép sắp xếp danh sách sản phẩm theo tên từ Z đến A (Name Z$\rightarrow$A). & 2 & 4 & 8 & Trung bình \\
+\hline
+FR-04.3 & Hệ thống cho phép sắp xếp danh sách sản phẩm theo giá tăng dần (Price low$\rightarrow$high). & 2 & 4 & 8 & Trung bình \\
+\hline
+FR-04.4 & Hệ thống cho phép sắp xếp danh sách sản phẩm theo giá giảm dần (Price high$\rightarrow$low). & 2 & 4 & 8 & Trung bình \\
+\hline
+NFR-01 & Thời gian load trang inventory phải $\leq$ 3 giây (trung vị của 5 lần đo) với tài khoản standard\_\allowbreak{}user. & 1 & 5 & 5 & Thấp \\
+\hline
+\end{longtable}
+\normalsize
