@@ -15,23 +15,39 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public final class InventoryPage {
 
-    private static final By SORT_DROPDOWN = By.className("product_sort_container");
-    private static final By INVENTORY_ITEMS = By.className("inventory_item");
-    private static final By INVENTORY_ITEM_NAME = By.className("inventory_item_name");
-    private static final By INVENTORY_ITEM_PRICE = By.className("inventory_item_price");
+    // ===== SORT & INVENTORY =====
+    private static final By SORT_DROPDOWN =
+            By.className("product_sort_container");
+
+    private static final By INVENTORY_ITEMS =
+            By.className("inventory_item");
+
+    private static final By INVENTORY_ITEM_NAME =
+            By.className("inventory_item_name");
+
+    private static final By INVENTORY_ITEM_PRICE =
+            By.className("inventory_item_price");
+
+    private static final By INVENTORY_CONTAINER =
+            By.id("inventory_container");
+
+    // ===== CART =====
     private static final By CART_BADGE =
             By.cssSelector(".shopping_cart_badge");
+
     private static final By CART_LINK =
             By.cssSelector(".shopping_cart_link");
 
     private final WebDriver driver;
     private final WebDriverWait wait;
 
+    // ===== CONSTRUCTOR =====
     public InventoryPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    // ===== OPEN PAGE =====
     public InventoryPage open() {
         driver.get("https://www.saucedemo.com/inventory.html");
         waitForPageLoaded();
@@ -39,8 +55,13 @@ public final class InventoryPage {
     }
 
     public void waitForPageLoaded() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(SORT_DROPDOWN));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                INVENTORY_CONTAINER));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                SORT_DROPDOWN));
     }
+
+    // ===== SORT PRODUCTS =====
 
     /**
      * Chọn kiểu sắp xếp
@@ -49,10 +70,13 @@ public final class InventoryPage {
     public void selectSort(String sortOption) {
         WebElement dropdown = wait.until(
                 ExpectedConditions.elementToBeClickable(SORT_DROPDOWN));
+
         Select select = new Select(dropdown);
         select.selectByValue(sortOption);
+
         // Đợi items re-render
-        wait.until(ExpectedConditions.visibilityOfElementLocated(INVENTORY_ITEMS));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                INVENTORY_ITEMS));
     }
 
     /**
@@ -60,7 +84,9 @@ public final class InventoryPage {
      */
     public List<String> getItemNames() {
         List<WebElement> items = wait.until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(INVENTORY_ITEM_NAME));
+                ExpectedConditions.presenceOfAllElementsLocatedBy(
+                        INVENTORY_ITEM_NAME));
+
         return items.stream()
                 .map(WebElement::getText)
                 .toList();
@@ -71,11 +97,16 @@ public final class InventoryPage {
      */
     public List<Double> getItemPrices() {
         List<WebElement> items = wait.until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(INVENTORY_ITEMS));
+                ExpectedConditions.presenceOfAllElementsLocatedBy(
+                        INVENTORY_ITEMS));
+
         return items.stream()
                 .map(item -> {
-                    String priceText = item.findElement(INVENTORY_ITEM_PRICE).getText();
-                    return Double.parseDouble(priceText.replace("$", ""));
+                    String priceText = item.findElement(
+                            INVENTORY_ITEM_PRICE).getText();
+
+                    return Double.parseDouble(
+                            priceText.replace("$", ""));
                 })
                 .toList();
     }
@@ -98,28 +129,59 @@ public final class InventoryPage {
         }
     }
 
+    // ===== ADD TO CART =====
+
+    /**
+     * Thêm sản phẩm vào giỏ hàng
+     * @param productSlug Ví dụ: sauce-labs-backpack
+     */
     public InventoryPage addProduct(String productSlug) {
         By addButton = By.cssSelector(
                 "[data-test='add-to-cart-" + productSlug + "']");
-        driver.findElement(addButton).click();
+
+        WebElement button = wait.until(
+                ExpectedConditions.elementToBeClickable(addButton));
+
+        button.click();
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector("[data-test='remove-" + productSlug + "']")));
+                By.cssSelector(
+                        "[data-test='remove-" + productSlug + "']")));
+
         return this;
     }
 
+    // ===== CART BADGE =====
+
+    /**
+     * Kiểm tra badge giỏ hàng có hiển thị không
+     */
     public boolean isCartBadgeDisplayed() {
         return !driver.findElements(CART_BADGE).isEmpty()
                 && driver.findElement(CART_BADGE).isDisplayed();
     }
 
+    /**
+     * Lấy số lượng sản phẩm trên badge giỏ hàng
+     */
     public String getCartBadgeCount() {
         return wait.until(
-                ExpectedConditions.visibilityOfElementLocated(CART_BADGE))
+                ExpectedConditions.visibilityOfElementLocated(
+                        CART_BADGE))
                 .getText();
     }
 
+    // ===== OPEN CART =====
+
+    /**
+     * Chuyển đến trang giỏ hàng
+     */
     public CartPage openCart() {
-        driver.findElement(CART_LINK).click();
+        WebElement cartLink = wait.until(
+                ExpectedConditions.elementToBeClickable(CART_LINK));
+
+        cartLink.click();
+
         return new CartPage(driver);
     }
 }
