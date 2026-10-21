@@ -1,0 +1,186 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{package}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.tests}\PYG{p}{;}
+
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertEquals}\PYG{p}{;}
+\PYG{k+kn}{import static}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Assertions.assertTrue}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.ArrayList}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.Collections}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{java.util.List}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.DisplayName}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.MethodOrderer}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Order}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.Test}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.api.TestMethodOrder}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.ParameterizedTest}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.provider.CsvSource}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.provider.MethodSource}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{org.junit.jupiter.params.provider.ValueSource}\PYG{p}{;}
+
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.core.WebTestBase}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.InventoryPage}\PYG{p}{;}
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{vn.edu.softwaretesting.pages.LoginPage}\PYG{p}{;}
+
+\PYG{c+cm}{/**}
+\PYG{c+cm}{ * Test cases cho FR\PYGZhy{}04: Sắp xếp sản phẩm}
+\PYG{c+cm}{ * Sử dụng kỹ thuật EP (Equivalence Partitioning)}
+\PYG{c+cm}{ */}
+\PYG{n+nd}{@TestMethodOrder}\PYG{p}{(}\PYG{n}{MethodOrderer}\PYG{p}{.}\PYG{n+na}{OrderAnnotation}\PYG{p}{.}\PYG{n+na}{class}\PYG{p}{)}
+\PYG{k+kd}{public}\PYG{+w}{ }\PYG{k+kd}{class} \PYG{n+nc}{SortTest}\PYG{+w}{ }\PYG{k+kd}{extends}\PYG{+w}{ }\PYG{n}{WebTestBase}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{+w}{ }\PYG{n}{loginPage}\PYG{p}{;}
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n+nd}{@Override}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{openBrowser}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kd}{super}\PYG{p}{.}\PYG{n+na}{openBrowser}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{LoginPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{baseUrl}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{InventoryPage}\PYG{p}{(}\PYG{n}{driver}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kd}{private}\PYG{+w}{ }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{login}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{        }\PYG{n}{loginPage}\PYG{p}{.}\PYG{n+na}{login}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}standard\PYGZus{}user\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}secret\PYGZus{}sauce\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{open}\PYG{p}{();}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// ==================== Test Cases với EP ====================}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}EP1: Kiểm tra sắp xếp Name A→Z (EP)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testSortNameATOZ}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}az\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{names}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemNames}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{c+c1}{// Kiểm tra danh sách đã được sắp xếp A→Z}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{sortedNames}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}\PYGZgt{}}\PYG{p}{(}\PYG{n}{names}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Collections}\PYG{p}{.}\PYG{n+na}{sort}\PYG{p}{(}\PYG{n}{sortedNames}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{sortedNames}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Danh sách phải được sắp xếp A→Z\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}EP2: Kiểm tra sắp xếp Name Z→A (EP)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testSortNameZTOA}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}za\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{names}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemNames}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{c+c1}{// Kiểm tra danh sách đã được sắp xếp Z→A}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{sortedNames}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}\PYGZgt{}}\PYG{p}{(}\PYG{n}{names}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Collections}\PYG{p}{.}\PYG{n+na}{sort}\PYG{p}{(}\PYG{n}{sortedNames}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Collections}\PYG{p}{.}\PYG{n+na}{reverseOrder}\PYG{p}{());}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{sortedNames}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Danh sách phải được sắp xếp Z→A\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@ValueSource}\PYG{p}{(}\PYG{n}{strings}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}az\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}za\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}lohi\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}hilo\PYGZdq{}}\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}EP3\PYGZhy{}6: Kiểm tra tất cả 4 kiểu sort (Parameterized)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testAllSortOptions}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{sortOption}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{n}{sortOption}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Kiểm tra dropdown đã được chọn đúng}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{isLoaded}\PYG{p}{(),}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Trang phải load đầy đủ sau khi sort\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemCount}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Phải có sản phẩm hiển thị\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// ==================== Test Cases với BVA ====================}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@CsvSource}\PYG{p}{(\PYGZob{}}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}lohi, 0, true,   // Sản phẩm giá thấp nhất ở đầu\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{l+s}{\PYGZdq{}hilo, 0, false,  // Sản phẩm giá cao nhất ở đầu\PYGZdq{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{})}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}BVA1\PYGZhy{}2: Kiểm tra boundary với giá min/max\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testBoundaryPriceSort}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{sortOption}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{firstItemIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{k+kt}{boolean}\PYG{+w}{ }\PYG{n}{isLowestFirst}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{n}{sortOption}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{Double}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{prices}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemPrices}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{prices}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{firstItemIndex}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Phải có ít nhất 1 sản phẩm\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{firstPrice}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{prices}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{firstItemIndex}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{minPrice}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{prices}\PYG{p}{.}\PYG{n+na}{stream}\PYG{p}{().}\PYG{n+na}{min}\PYG{p}{(}\PYG{n}{Double}\PYG{p}{::}\PYG{n}{compare}\PYG{p}{).}\PYG{n+na}{orElse}\PYG{p}{(}\PYG{l+m+mf}{0.0}\PYG{p}{);}
+\PYG{+w}{        }\PYG{k+kt}{double}\PYG{+w}{ }\PYG{n}{maxPrice}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{prices}\PYG{p}{.}\PYG{n+na}{stream}\PYG{p}{().}\PYG{n+na}{max}\PYG{p}{(}\PYG{n}{Double}\PYG{p}{::}\PYG{n}{compare}\PYG{p}{).}\PYG{n+na}{orElse}\PYG{p}{(}\PYG{l+m+mf}{0.0}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{isLowestFirst}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{minPrice}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{firstPrice}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Sản phẩm đầu tiên phải có giá thấp nhất\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{k}{else}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{maxPrice}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{firstPrice}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Sản phẩm đầu tiên phải có giá cao nhất\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}BVA3: Kiểm tra boundary \PYGZhy{} sản phẩm giữa danh sách\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testMiddleItemSort}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}az\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{names}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemNames}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{();}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{size}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{middleIndex}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{size}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{middleName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{middleIndex}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{prevName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{middleIndex}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{String}\PYG{+w}{ }\PYG{n}{nextName}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{names}\PYG{p}{.}\PYG{n+na}{get}\PYG{p}{(}\PYG{n}{middleIndex}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{);}
+
+\PYG{+w}{            }\PYG{c+c1}{// Kiểm tra sản phẩm giữa thỏa mãn: prev \PYGZlt{}= middle \PYGZlt{}= next}
+\PYG{+w}{            }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{prevName}\PYG{p}{.}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{middleName}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{l+s}{\PYGZdq{}Tên trước phải \PYGZlt{}= tên giữa\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{middleName}\PYG{p}{.}\PYG{n+na}{compareTo}\PYG{p}{(}\PYG{n}{nextName}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZlt{}=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{l+s}{\PYGZdq{}Tên giữa phải \PYGZlt{}= tên sau\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// ==================== Test Case với MethodSource ====================}
+
+\PYG{+w}{    }\PYG{k+kd}{static}\PYG{+w}{ }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n+nf}{sortOptions}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{List}\PYG{p}{.}\PYG{n+na}{of}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}az\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}za\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}lohi\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}hilo\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{n+nd}{@ParameterizedTest}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@MethodSource}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}sortOptions\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}EP\PYGZhy{}METHOD: Kiểm tra sort với MethodSource\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testSortWithMethodSource}\PYG{p}{(}\PYG{n}{String}\PYG{+w}{ }\PYG{n}{sortOption}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{selectSort}\PYG{p}{(}\PYG{n}{sortOption}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{names}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemNames}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{c+c1}{// Tất cả sort options phải trả về danh sách không rỗng}
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{names}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Sort \PYGZdq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{sortOption}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{} phải trả về sản phẩm\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{c+c1}{// ==================== Test Default (không sort) ====================}
+
+\PYG{+w}{    }\PYG{n+nd}{@Test}
+\PYG{+w}{    }\PYG{n+nd}{@Order}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n+nd}{@DisplayName}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}TC\PYGZhy{}SORT\PYGZhy{}EP5: Kiểm tra trạng thái mặc định (không sort)\PYGZdq{}}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{testDefaultSort}\PYG{p}{()}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{login}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{c+c1}{// Không chọn sort \PYGZhy{} giữ nguyên thứ tự mặc định}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{defaultNames}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{inventoryPage}\PYG{p}{.}\PYG{n+na}{getItemNames}\PYG{p}{();}
+
+\PYG{+w}{        }\PYG{n}{assertTrue}\PYG{p}{(}\PYG{n}{defaultNames}\PYG{p}{.}\PYG{n+na}{size}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Phải có sản phẩm hiển thị\PYGZdq{}}\PYG{p}{);}
+
+\PYG{+w}{        }\PYG{c+c1}{// Thứ tự mặc định của Swag Labs là Name A→Z}
+\PYG{+w}{        }\PYG{n}{List}\PYG{o}{\PYGZlt{}}\PYG{n}{String}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{expectedOrder}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{new}\PYG{+w}{ }\PYG{n}{ArrayList}\PYG{o}{\PYGZlt{}\PYGZgt{}}\PYG{p}{(}\PYG{n}{defaultNames}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{Collections}\PYG{p}{.}\PYG{n+na}{sort}\PYG{p}{(}\PYG{n}{expectedOrder}\PYG{p}{);}
+\PYG{+w}{        }\PYG{n}{assertEquals}\PYG{p}{(}\PYG{n}{expectedOrder}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{defaultNames}\PYG{p}{,}
+\PYG{+w}{                }\PYG{l+s}{\PYGZdq{}Thứ tự mặc định phải là A→Z\PYGZdq{}}\PYG{p}{);}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
