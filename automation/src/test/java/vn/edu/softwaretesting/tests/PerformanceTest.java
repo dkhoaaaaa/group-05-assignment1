@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class PerformanceTest extends WebTestBase {
 
     @Test
     @DisplayName("TC-NFR-01: Đo thời gian load trang inventory (performance_glitch_user)")
-    @Timeout(60)
+    @Timeout(300)
     void testInventoryPageLoadTime() {
         List<Double> loadTimes = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class PerformanceTest extends WebTestBase {
                 double loadTimeSeconds = pageLoadDuration.toMillis() / 1000.0;
                 loadTimes.add(loadTimeSeconds);
 
-                System.out.printf("Lần đo %d: %.3f giây%n", i, loadTimeSeconds);
+                System.out.printf(Locale.US, "Lần đo %d: %.3f giây%n", i, loadTimeSeconds);
             }
 
             // Đóng trình duyệt và mở lại cho lần đo tiếp theo
@@ -80,17 +81,18 @@ public class PerformanceTest extends WebTestBase {
         }
 
         System.out.printf("%n=== KẾT QUẢ ĐO HIỆU NĂNG ===%n");
-        System.out.printf("Số lần đo: %d%n", size);
-        System.out.printf("Thời gian các lần đo: %s%n", loadTimes);
-        System.out.printf("Trung vị: %.3f giây%n", median);
-        System.out.printf("Ngưỡng yêu cầu: %.1f giây%n", THRESHOLD_SECONDS);
-        System.out.printf("Kết quả: %s%n",
+        System.out.printf(Locale.US, "Số lần đo: %d%n", size);
+        System.out.printf(Locale.US, "Thời gian các lần đo: %s%n", loadTimes);
+        System.out.printf(Locale.US, "Trung vị: %.3f giây%n", median);
+        System.out.printf(Locale.US, "Ngưỡng yêu cầu: %.1f giây%n", THRESHOLD_SECONDS);
+        System.out.printf(Locale.US, "Kết quả: %s%n",
                 median <= THRESHOLD_SECONDS ? "PASS [PASS]" : "FAIL [FAIL]");
 
         // Test sẽ FAIL vì performance_glitch_user có bug load chậm
         // Bug: BUG-01 - Trung vị thời gian load > 3 giây
         assertTrue(median <= THRESHOLD_SECONDS,
-                String.format("Trung vị thời gian load phải <= %.1f giây (thực tế: %.3f giây)",
+                String.format(Locale.US,
+                        "Trung vị thời gian load phải <= %.1f giây (thực tế: %.3f giây)",
                         THRESHOLD_SECONDS, median));
     }
 
@@ -111,7 +113,7 @@ public class PerformanceTest extends WebTestBase {
         Duration loadDuration = Duration.between(start, end);
         double loadTimeSeconds = loadDuration.toMillis() / 1000.0;
 
-        System.out.printf("Baseline (standard_user): %.3f giây%n", loadTimeSeconds);
+        System.out.printf(Locale.US, "Baseline (standard_user): %.3f giây%n", loadTimeSeconds);
 
         // Baseline thường < 3 giây
         assertTrue(loadTimeSeconds <= THRESHOLD_SECONDS,

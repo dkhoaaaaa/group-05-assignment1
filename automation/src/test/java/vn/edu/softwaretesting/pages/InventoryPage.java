@@ -1,4 +1,3 @@
-
 package vn.edu.softwaretesting.pages;
 
 import java.time.Duration;
@@ -66,7 +65,7 @@ public final class InventoryPage {
 
     /**
      * Chọn kiểu sắp xếp
-     * @param sortOption az, za, lohi, hilo
+     * @param sortOption Giá trị value của dropdown: az, za, lohi, hilo
      */
     public void selectSort(String sortOption) {
         WebElement dropdown = wait.until(
@@ -75,6 +74,7 @@ public final class InventoryPage {
         Select select = new Select(dropdown);
         select.selectByValue(sortOption);
 
+        // Đợi items re-render
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 INVENTORY_ITEMS));
     }
