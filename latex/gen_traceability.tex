@@ -1,45 +1,45 @@
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{longtable}{|p{1.5cm}|p{1.5cm}|p{5.3cm}|p{1.2cm}|p{2.7cm}|}
-\caption{Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case}
-\label{tab:traceability} \\
-\hline
-\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
-\hline
-\endfirsthead
-\hline
-\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
-\hline
-\endhead
-\hline \endfoot
-FR-01.2 & DT & TC-LOGIN-DT1, TC-LOGIN-DT2, TC-LOGIN-DT3 & -- & LoginTest.java \\
-\hline
-FR-01.3 & DT & TC-LOGIN-DT4, TC-LOGIN-DT5, TC-LOGIN-DT7 & -- & LoginTest.java \\
-\hline
-FR-01.1 & DT & TC-LOGIN-DT6, TC-LOGIN-DT8 & -- & LoginTest.java \\
-\hline
-FR-02 & BVA & TC-CART-BVA-01, TC-CART-BVA-02, TC-CART-BVA-03, TC-CART-BVA-04, TC-CART-BVA-05, TC-CART-BVA-06, TC-CART-BVA-07, TC-CART-BVA-08 & -- & CartTest.java \\
-\hline
-FR-03.1 & UC & TC-CHK-01, TC-CHK-02.1, TC-CHK-02.2, TC-CHK-02.3, TC-CHK-02.4, TC-CHK-02.5 & -- & CheckoutTest.java \\
-\hline
-FR-03.2 & UC & TC-CHK-03 & -- & CheckoutTest.java \\
-\hline
-FR-03.3 & UC & TC-CHK-04 & -- & CheckoutTest.java \\
-\hline
-FR-03.4 & UC & TC-CHK-05 & -- & CheckoutTest.java \\
-\hline
-FR-03.5 & UC & TC-CHK-06 & -- & CheckoutTest.java \\
-\hline
-FR-03.6 & UC & TC-CHK-07 & -- & CheckoutTest.java \\
-\hline
-FR-04.1 & EP & TC-SORT-EP1, TC-SORT-EP2 & -- & SortTest.java \\
-\hline
-FR-04.2 & EP & TC-SORT-EP3, TC-SORT-EP4 & -- & SortTest.java \\
-\hline
-FR-04.3 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2, TC-SORT-BVA3 & -- & SortTest.java \\
-\hline
-FR-04.4 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2 & -- & SortTest.java \\
-\hline
-NFR-01 & Performance & TC-NFR-01 & BUG-01 & PerformanceTest.java \\
-\hline
-\end{longtable}
+\begin{tabularx}{\textwidth}{|>{\RaggedRight\arraybackslash}p{1.4cm}|>{\RaggedRight\arraybackslash}p{1.8cm}|>{\RaggedRight\arraybackslash}X|>{\Centering\arraybackslash}p{1.0cm}|>{\RaggedRight\arraybackslash}p{2.3cm}|}
+	\caption{Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case}
+	\label{tab:traceability} \\
+	\hline
+	\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
+	\hline
+	\endfirsthead
+	\hline
+	\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
+	\hline
+	\endhead
+	\hline \endfoot
+	FR-01.2 & DT & TC-LOGIN-DT1, TC-LOGIN-DT2, TC-LOGIN-DT3 & -- & LoginTest.java \\
+	\hline
+	FR-01.3 & DT & TC-LOGIN-DT4, TC-LOGIN-DT5, TC-LOGIN-DT7 & -- & LoginTest.java \\
+	\hline
+	FR-01.1 & DT & TC-LOGIN-DT6, TC-LOGIN-DT8 & -- & LoginTest.java \\
+	\hline
+	FR-02 & BVA & TC-CART-BVA-01, TC-CART-BVA-02, TC-CART-BVA-03, TC-CART-BVA-04, TC-CART-BVA-05, TC-CART-BVA-06, TC-CART-BVA-07, TC-CART-BVA-08 & -- & CartTest.java \\
+	\hline
+	FR-03.1 & UC & TC-CHK-01, TC-CHK-02.1, TC-CHK-02.2, TC-CHK-02.3, TC-CHK-02.4, TC-CHK-02.5 & -- & CheckoutTest.java \\
+	\hline
+	FR-03.2 & UC & TC-CHK-03 & -- & CheckoutTest.java \\
+	\hline
+	FR-03.3 & UC & TC-CHK-04 & -- & CheckoutTest.java \\
+	\hline
+	FR-03.4 & UC & TC-CHK-05 & -- & CheckoutTest.java \\
+	\hline
+	FR-03.5 & UC & TC-CHK-06 & -- & CheckoutTest.java \\
+	\hline
+	FR-03.6 & UC & TC-CHK-07 & -- & CheckoutTest.java \\
+	\hline
+	FR-04.1 & EP & TC-SORT-EP1, TC-SORT-EP2 & -- & SortTest.java \\
+	\hline
+	FR-04.2 & EP & TC-SORT-EP3, TC-SORT-EP4 & -- & SortTest.java \\
+	\hline
+	FR-04.3 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2, TC-SORT-BVA3 & -- & SortTest.java \\
+	\hline
+	FR-04.4 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2 & -- & SortTest.java \\
+	\hline
+	NFR-01 & Performance & TC-NFR-01 & BUG-01 & PerformanceTest.java \\
+	\hline
+\end{tabularx}

@@ -1,88 +1,91 @@
+\begingroup
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.2}
 \small
-\setlength{\tabcolsep}{3pt}
-\begin{longtable}{|p{2.0cm}|p{1.4cm}|p{2.25cm}|p{2.05cm}|p{2.75cm}|p{3.2cm}|}
-\caption{Bảng test case chi tiết của toàn nhóm (36 test case)}
-\label{tab:all-tc} \\
-\hline
-\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & \textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\
-\hline
-\endfirsthead
-\hline
-\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & \textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\
-\hline
-\endhead
-\hline \endfoot
-\textbf{TC-LOGIN-DT1} & FR-01 / DT & Đang ở trang đăng nhập & Username: "" \newline Password: secret\_\allowbreak{}sauce & 1. Bỏ trống Username \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username is required \\
-\hline
-\textbf{TC-LOGIN-DT2} & FR-01 / DT & Đang ở trang đăng nhập & Username: "" \newline Password: "" & 1. Bỏ trống Username \newline 2. Bỏ trống Password \newline 3. Nhấn Login & Thông báo lỗi: Username is required \\
-\hline
-\textbf{TC-LOGIN-DT3} & FR-01 / DT & Đang ở trang đăng nhập & Username: standard\_\allowbreak{}user \newline Password: "" & 1. Nhập Username \newline 2. Bỏ trống Password \newline 3. Nhấn Login & Thông báo lỗi: Password is required \\
-\hline
-\textbf{TC-LOGIN-DT4} & FR-01 / DT & Đang ở trang đăng nhập & Username: locked\_\allowbreak{}out\_\allowbreak{}user \newline Password: wrong\_\allowbreak{}pass & 1. Nhập Username \newline 2. Nhập sai Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
-\hline
-\textbf{TC-LOGIN-DT5} & FR-01 / DT & Đang ở trang đăng nhập & Username: locked\_\allowbreak{}out\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username \newline 2. Nhập đúng Password \newline 3. Nhấn Login & Thông báo lỗi: Sorry, this user has been locked out. \\
-\hline
-\textbf{TC-LOGIN-DT6} & FR-01 / DT & Đang ở trang đăng nhập & Username: standard\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Nhập đúng Username \newline 2. Nhập đúng Password \newline 3. Nhấn Login & Chuyển hướng thành công đến URL inventory.html \\
-\hline
-\textbf{TC-LOGIN-DT7} & FR-01 / DT & Đang ở trang đăng nhập & Username: invalid\_\allowbreak{}user\_\allowbreak{}123 \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username sai \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
-\hline
-\textbf{TC-LOGIN-DT8} & FR-01 / DT & Đang ở trang đăng nhập & Username: Standard\_\allowbreak{}User \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username viết hoa \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
-\hline
-\textbf{TC-CART-BVA-01} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Username: standard\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1.Không thêm sản phẩm nào. \newline 2.Quan sát biểu tượng giỏ hàng \newline 3.Mở giỏ hàng & Badge số lượng không hiển thị; trang giỏ hàng không có sản phẩm \\
-\hline
-\textbf{TC-CART-BVA-02} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Sản phẩm: Sauce Labs Backpack & 1.Nhấn Add to cart tại Sauce Labs Backpack \newline 2.Quan sát badge \newline 3.Mở giỏ hàng & Badge hiển thị 1; giỏ hàng có đúng Sauce Labs Backpack \\
-\hline
-\textbf{TC-CART-BVA-03} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Sauce Labs Backpack và Sauce Labs Bike Light & 1.Thêm Sauce Labs Backpack \newline 2.Thêm Sauce Labs Bike Light \newline 3.Quan sát badge và mở giỏ hàng & Badge hiển thị 2; giỏ hàng có đúng 2 sản phẩm đã chọn \\
-\hline
-\textbf{TC-CART-BVA-04} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Backpack, Bike Light, Bolt T-Shirt,Fleece Jacket, Onesie & 1.Thêm lần lượt 5 sản phẩm trong dữ liệu \newline 2.Quan sát badge \newline 3.Mở giỏ hàng và kiểm tra & Badge hiển thị 5; giỏ hàng có đúng 5 sản phẩm đã chọn \\
-\hline
-\textbf{TC-CART-BVA-05} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Cả 6 sản phẩm trên trang inventory & 1.Thêm lần lượt cả 6 sản phẩm \newline 2.Quan sát badge \newline 3.Mở giỏ hàng và kiểm tra & Badge hiển thị 6; giỏ hàng có đúng 6 sản phẩm đã chọn \\
-\hline
-\textbf{TC-CART-BVA-06} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng có đủ 6 sản phẩm; đang ở trang giỏ hàng & Sản phẩm cần xoá: Sauce Labs Onesie & 1.Nhấn Remove tại Sauce Labs Onesie \newline 2.Quan sát badge \newline 3.Kiểm tra danh sách sản phẩm & Badge giảm từ 6 xuống 5; Onesie bị xoá; 5 sản phẩm còn lại vẫn hiển thị \\
-\hline
-\textbf{TC-CART-BVA-07} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ có Backpack, Bike Light,Bolt T-Shirt,Fleece Jacket và Onesie; đang ở trang giỏ hàng & Giữ lại Backpack; xoá 4 sản phẩm còn lại & 1.Nhấn Remove tại Bike Light,Bolt T-Shirt,Fleece Jacket và Onesie \newline 2.Quan sát badge và danh sách & Badge hiển thị 1; giỏ hàng chỉ còn Sauce Labs Backpack \\
-\hline
-\textbf{TC-CART-BVA-08} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ chỉ có Backpack; đang ở trang giỏ hàng & Sản phẩm cần xoá: Sauce Labs Backpack & 1.Nhấn Remove tại Sauce Labs Backpack \newline 2.Quan sát biểu tượng giỏ hàng \newline 3.Kiểm tra trang giỏ hàng & Badge không còn hiển thị; giỏ hàng không có sản phẩm \\
-\hline
-\textbf{TC-CHK-01} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: An \newline Last Name: Nguyen \newline Postal Code: 700000 & 1. Nhấn Checkout \newline 2. Nhập First Name, Last Name, Postal Code \newline 3. Nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Các ô hiển thị đúng dữ liệu vừa nhập \newline 3. URL chuyển sang checkout-step-two.html, không có thông báo lỗi \\
-\hline
-\textbf{TC-CHK-02.1} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: "" \newline Last Name: Nguyen \newline Postal Code: 700000 & 1. Nhấn Checkout \newline 2. Bỏ trống First Name, nhập Last Name và Postal Code \newline 3. Nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Ô First Name trống, 2 ô còn lại hiển thị đúng dữ liệu \newline 3. Vẫn ở checkout-step-one.html, hiển thị "Error: First Name is required" \\
-\hline
-\textbf{TC-CHK-02.2} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: An \newline Last Name: "" \newline Postal Code: 700000 & 1. Nhấn Checkout \newline 2. Nhập First Name, bỏ trống Last Name, nhập Postal Code \newline 3. Nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Ô Last Name trống, 2 ô còn lại hiển thị đúng dữ liệu \newline 3. Vẫn ở checkout-step-one.html, hiển thị "Error: Last Name is required" \\
-\hline
-\textbf{TC-CHK-02.3} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: An \newline Last Name: Nguyen \newline Postal Code: "" & 1. Nhấn Checkout \newline 2. Nhập First Name, Last Name, bỏ trống Postal Code \newline 3. Nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Ô Postal Code trống, 2 ô còn lại hiển thị đúng dữ liệu \newline 3. Vẫn ở checkout-step-one.html, hiển thị "Error: Postal Code is required" \\
-\hline
-\textbf{TC-CHK-02.4} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: "" \newline Last Name: "" \newline Postal Code: "" & 1. Nhấn Checkout \newline 2. Không nhập ô nào, nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Vẫn ở checkout-step-one.html, chỉ hiển thị "Error: First Name is required" (First Name được kiểm tra trước) \\
-\hline
-\textbf{TC-CHK-02.5} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & First Name: An \newline Last Name: "" \newline Postal Code: "" & 1. Nhấn Checkout \newline 2. Nhập First Name, bỏ trống Last Name và Postal Code, nhấn Continue & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. Vẫn ở checkout-step-one.html, chỉ hiển thị "Error: Last Name is required" (Last Name được kiểm tra trước Postal Code) \\
-\hline
-\textbf{TC-CHK-03} & FR-03.2 / UC & Đã đăng nhập standard\_\allowbreak{}user / secret\_\allowbreak{}sauce; giỏ hàng chỉ có Sauce Labs Backpack (\$29.99); đang ở trang cart.html & Không nhập dữ liệu & 1. Nhấn Checkout \newline 2. Không nhập gì, nhấn Cancel \newline 3. Kiểm tra giỏ hàng & 1. URL chuyển sang checkout-step-one.html, hiển thị 3 ô First Name, Last Name, Zip/Postal Code \newline 2. URL chuyển về cart.html \newline 3. Giỏ vẫn còn Sauce Labs Backpack giá \$29.99, badge giỏ hàng = 1 \\
-\hline
-\textbf{TC-CHK-04} & FR-03 / UC-2 & Đăng nhập standard\_\allowbreak{}user; Backpack trong giỏ; đang ở Checkout: Overview & First Name: An; Last Name: Nguyen; Postal Code: 700000 & Nhập thông tin hợp lệ, nhấn Continue; kiểm tra giá sản phẩm, Item total, Tax, Total & Overview hiển thị Backpack \$29.99; Item total \$29.99, Tax \$2.40, Total \$32.39 \\
-\hline
-\textbf{TC-CHK-05} & FR-03 / UC-2 & Đã đến Overview với Backpack trong giỏ & First Name: An; Last Name: Nguyen; Postal Code: 700000 & Nhấn Finish & Sang Checkout: Complete; hiện ``Thank you for your order!''; badge giỏ hàng bị ẩn \\
-\hline
-\textbf{TC-CHK-06} & FR-03 / UC-2 & Đã đến Overview với Backpack trong giỏ & First Name: An; Last Name: Nguyen; Postal Code: 700000 & Nhấn Cancel & Trở về cart.html; Backpack vẫn còn trong giỏ \\
-\hline
-\textbf{TC-CHK-07} & FR-03 / UC-2 & Đăng nhập standard\_\allowbreak{}user; Backpack và Bike Light trong giỏ & Tổng giá sản phẩm \$39.98 & Checkout, nhập thông tin hợp lệ, nhấn Continue; kiểm tra tiền & Item total \$39.98; Tax \$3.20; Total \$43.18 \\
-\hline
-\textbf{TC-SORT-EP1} & FR-04.1 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory & Sort option: az & 1. Mở dropdown sort \newline 2. Chọn 'Name (A to Z)' & Danh sách sắp xếp theo tên từ A đến Z \\
-\hline
-\textbf{TC-SORT-EP2} & FR-04.2 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory & Sort option: za & 1. Mở dropdown sort \newline 2. Chọn 'Name (Z to A)' & Danh sách sắp xếp theo tên từ Z đến A \\
-\hline
-\textbf{TC-SORT-EP3} & FR-04.3 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory & Sort option: low to high & 1. Mở dropdown sort \newline 2. Chọn 'Price (low to high)' & Danh sách sắp xếp theo giá tăng dần \\
-\hline
-\textbf{TC-SORT-EP4} & FR-04.4 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory & Sort option: high to low & 1. Mở dropdown sort \newline 2. Chọn 'Price (high to low)' & Danh sách sắp xếp theo giá giảm dần \\
-\hline
-\textbf{TC-SORT-EP5} & FR-04 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory & Default (không chọn sort) & 1. Không thay đổi sort & Thứ tự mặc định ban đầu của app \\
-\hline
-\textbf{TC-SORT-BVA1} & FR-04.3 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory với đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn sort 'Price (low to high)' \newline 2. Kiểm tra sản phẩm đầu tiên & Sản phẩm giá thấp nhất (\$7.99) ở vị trí đầu tiên \\
-\hline
-\textbf{TC-SORT-BVA2} & FR-04.4 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory với đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn sort 'Price (high to low)' \newline 2. Kiểm tra sản phẩm đầu tiên & Sản phẩm giá cao nhất (\$49.99) ở vị trí đầu tiên \\
-\hline
-\textbf{TC-SORT-BVA3} & FR-04.1 / EP & Đã đăng nhập standard\_\allowbreak{}user; đang ở trang inventory với đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn sort 'Name (A to Z)' \newline 2. Kiểm tra sản phẩm giữa danh sách & Sản phẩm giữa thỏa mãn thứ tự alphabet (prev <= middle <= next) \\
-\hline
-\textbf{TC-NFR-01} & NFR-01 / Performance & Đăng nhập với performance\_\allowbreak{}glitch\_\allowbreak{}user; đang ở trang login & Username: performance\_\allowbreak{}glitch\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Đăng nhập với 'performance\_\allowbreak{}glitch\_\allowbreak{}user' \newline 2. Đo thời gian từ click Login đến khi trang inventory load xong \newline 3. Lặp 5 lần \newline 4. Tính trung vị & Trung vị thời gian load $\leq$ 3 giây \\
-\hline
+\noindent
+\begin{longtable}{|p{1.9cm}|p{1.2cm}|p{2.1cm}|p{2.1cm}|p{2.6cm}|p{3.1cm}|}
+	\caption{Bảng test case chi tiết của toàn nhóm (36 test case)}
+	\label{tab:all-tc} \\
+	\hline
+	\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & \textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\
+	\hline
+	\endfirsthead
+	\hline
+	\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & \textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\
+	\hline
+	\endhead
+	\hline \endfoot
+	\textbf{TC-LOGIN-DT1} & FR-01 / DT & Đang ở trang đăng nhập & Username: "" \newline Password: secret\_\allowbreak{}sauce & 1. Bỏ trống Username \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username is required \\
+	\hline
+	\textbf{TC-LOGIN-DT2} & FR-01 / DT & Đang ở trang đăng nhập & Username: "" \newline Password: "" & 1. Bỏ trống Username \newline 2. Bỏ trống Password \newline 3. Nhấn Login & Thông báo lỗi: Username is required \\
+	\hline
+	\textbf{TC-LOGIN-DT3} & FR-01 / DT & Đang ở trang đăng nhập & Username: standard\_\allowbreak{}user \newline Password: "" & 1. Nhập Username \newline 2. Bỏ trống Password \newline 3. Nhấn Login & Thông báo lỗi: Password is required \\
+	\hline
+	\textbf{TC-LOGIN-DT4} & FR-01 / DT & Đang ở trang đăng nhập & Username: locked\_\allowbreak{}out\_\allowbreak{}user \newline Password: wrong\_\allowbreak{}pass & 1. Nhập Username \newline 2. Nhập sai Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
+	\hline
+	\textbf{TC-LOGIN-DT5} & FR-01 / DT & Đang ở trang đăng nhập & Username: locked\_\allowbreak{}out\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username \newline 2. Nhập đúng Password \newline 3. Nhấn Login & Thông báo lỗi: Sorry, this user has been locked out. \\
+	\hline
+	\textbf{TC-LOGIN-DT6} & FR-01 / DT & Đang ở trang đăng nhập & Username: standard\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Nhập đúng Username \newline 2. Nhập đúng Password \newline 3. Nhấn Login & Chuyển hướng thành công đến URL inventory.html \\
+	\hline
+	\textbf{TC-LOGIN-DT7} & FR-01 / DT & Đang ở trang đăng nhập & Username: invalid\_\allowbreak{}user\_\allowbreak{}123 \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username sai \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
+	\hline
+	\textbf{TC-LOGIN-DT8} & FR-01 / DT & Đang ở trang đăng nhập & Username: Standard\_\allowbreak{}User \newline Password: secret\_\allowbreak{}sauce & 1. Nhập Username viết hoa \newline 2. Nhập Password \newline 3. Nhấn Login & Thông báo lỗi: Username and password do not match any user in this service \\
+	\hline
+	\textbf{TC-CART-BVA-01} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Username: standard\_\allowbreak{}user \newline Password: secret\_\allowbreak{}sauce & 1. Không thêm sản phẩm \newline 2. Quan sát badge \newline 3. Mở giỏ hàng & Badge không hiển thị; giỏ hàng trống \\
+	\hline
+	\textbf{TC-CART-BVA-02} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Sản phẩm: Sauce Labs Backpack & 1. Nhấn Add to cart \newline 2. Quan sát badge \newline 3. Mở giỏ hàng & Badge hiển thị 1; có đúng Backpack \\
+	\hline
+	\textbf{TC-CART-BVA-03} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Backpack và Bike Light & 1. Thêm 2 sản phẩm \newline 2. Quan sát badge \newline 3. Mở giỏ hàng & Badge hiển thị 2; có đúng 2 sản phẩm \\
+	\hline
+	\textbf{TC-CART-BVA-04} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & 5 sản phẩm đầu tiên & 1. Thêm lần lượt 5 sản phẩm \newline 2. Quan sát badge \newline 3. Kiểm tra giỏ hàng & Badge hiển thị 5; có đúng 5 sản phẩm \\
+	\hline
+	\textbf{TC-CART-BVA-05} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ hàng rỗng; đang ở trang inventory & Cả 6 sản phẩm & 1. Thêm cả 6 sản phẩm \newline 2. Quan sát badge \newline 3. Kiểm tra giỏ hàng & Badge hiển thị 6; có đủ 6 sản phẩm \\
+	\hline
+	\textbf{TC-CART-BVA-06} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ có 6 sản phẩm & Sản phẩm xoá: Sauce Labs Onesie & 1. Nhấn Remove Onesie \newline 2. Quan sát badge \newline 3. Kiểm tra danh sách & Badge giảm còn 5; Onesie bị xoá \\
+	\hline
+	\textbf{TC-CART-BVA-07} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ có 5 sản phẩm & Giữ lại Backpack, xoá 4 sản phẩm & 1. Nhấn Remove 4 sản phẩm \newline 2. Kiểm tra badge và giỏ & Badge hiển thị 1; chỉ còn Backpack \\
+	\hline
+	\textbf{TC-CART-BVA-08} & FR-02 / BVA & Đang đăng nhập bằng standard\_\allowbreak{}user; giỏ chỉ có Backpack & Sản phẩm xoá: Sauce Labs Backpack & 1. Nhấn Remove Backpack \newline 2. Quan sát badge \newline 3. Kiểm tra giỏ hàng & Badge ẩn đi; giỏ hàng trống \\
+	\hline
+	\textbf{TC-CHK-01} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & First Name: An \newline Last Name: Nguyen \newline Postal: 700000 & 1. Nhấn Checkout \newline 2. Nhập thông tin \newline 3. Nhấn Continue & Chuyển sang checkout-step-two.html, không có lỗi \\
+	\hline
+	\textbf{TC-CHK-02.1} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & First Name: "" \newline Last Name: Nguyen \newline Postal: 700000 & 1. Nhấn Checkout \newline 2. Bỏ trống First Name \newline 3. Nhấn Continue & Vẫn ở bước 1, báo lỗi: First Name is required \\
+	\hline
+	\textbf{TC-CHK-02.2} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & First Name: An \newline Last Name: "" \newline Postal: 700000 & 1. Nhấn Checkout \newline 2. Bỏ trống Last Name \newline 3. Nhấn Continue & Vẫn ở bước 1, báo lỗi: Last Name is required \\
+	\hline
+	\textbf{TC-CHK-02.3} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & First Name: An \newline Last Name: Nguyen \newline Postal: "" & 1. Nhấn Checkout \newline 2. Bỏ trống Postal \newline 3. Nhấn Continue & Vẫn ở bước 1, báo lỗi: Postal Code is required \\
+	\hline
+	\textbf{TC-CHK-02.4} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & Cả 3 ô trống & 1. Nhấn Checkout \newline 2. Không nhập gì, nhấn Continue & Vẫn ở bước 1, báo lỗi: First Name is required \\
+	\hline
+	\textbf{TC-CHK-02.5} & FR-03.1 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & First Name: An \newline Last Name: "" \newline Postal: "" & 1. Nhấn Checkout \newline 2. Bỏ trống Last Name \& Postal \newline 3. Nhấn Continue & Vẫn ở bước 1, báo lỗi: Last Name is required \\
+	\hline
+	\textbf{TC-CHK-03} & FR-03.2 / UC & Đã đăng nhập standard\_\allowbreak{}user; giỏ có Backpack; ở cart.html & Không nhập dữ liệu & 1. Nhấn Checkout \newline 2. Nhấn Cancel \newline 3. Kiểm tra giỏ & Trở về cart.html; giỏ vẫn còn Backpack \\
+	\hline
+	\textbf{TC-CHK-04} & FR-03 / UC-2 & Đăng nhập standard\_\allowbreak{}user; Backpack trong giỏ; ở Overview & An / Nguyen / 700000 & Nhập thông tin hợp lệ, bấm Continue; kiểm tra giá & Hiển thị Backpack \$29.99; Total \$32.39 \\
+	\hline
+	\textbf{TC-CHK-05} & FR-03 / UC-2 & Đã đến Overview với Backpack trong giỏ & An / Nguyen / 700000 & Nhấn Finish & Sang Complete; hiện thông báo cảm ơn; badge ẩn \\
+	\hline
+	\textbf{TC-CHK-06} & FR-03 / UC-2 & Đã đến Overview với Backpack trong giỏ & An / Nguyen / 700000 & Nhấn Cancel & Trở về cart.html; Backpack vẫn trong giỏ \\
+	\hline
+	\textbf{TC-CHK-07} & FR-03 / UC-2 & Đăng nhập standard\_\allowbreak{}user; 2 sản phẩm trong giỏ & Tổng giá \$39.98 & Checkout, nhập thông tin hợp lệ, kiểm tra tiền & Item total \$39.98; Tax \$3.20; Total \$43.18 \\
+	\hline
+	\textbf{TC-SORT-EP1} & FR-04.1 / EP & Đã đăng nhập standard\_\allowbreak{}user; ở inventory & Sort option: az & 1. Mở dropdown \newline 2. Chọn Name (A to Z) & Sắp xếp theo tên từ A đến Z \\
+	\hline
+	\textbf{TC-SORT-EP2} & FR-04.2 / EP & Đã đăng nhập standard\_\allowbreak{}user; ở inventory & Sort option: za & 1. Mở dropdown \newline 2. Chọn Name (Z to A) & Sắp xếp theo tên từ Z đến A \\
+	\hline
+	\textbf{TC-SORT-EP3} & FR-04.3 / EP & Đã đăng nhập standard\_\allowbreak{}user; ở inventory & Sort option: low to high & 1. Mở dropdown \newline 2. Chọn Price (low to high) & Sắp xếp theo giá tăng dần \\
+	\hline
+	\textbf{TC-SORT-EP4} & FR-04.4 / EP & Đã đăng nhập standard\_\allowbreak{}user; ở inventory & Sort option: high to low & 1. Mở dropdown \newline 2. Chọn Price (high to low) & Sắp xếp theo giá giảm dần \\
+	\hline
+	\textbf{TC-SORT-EP5} & FR-04 / EP & Đã đăng nhập standard\_\allowbreak{}user; ở inventory & Default (không chọn) & Không thay đổi sort & Thứ tự mặc định ban đầu \\
+	\hline
+	\textbf{TC-SORT-BVA1} & FR-04.3 / EP & Đã đăng nhập standard\_\allowbreak{}user; đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn Price (low to high) \newline 2. Kiểm tra vị trí đầu & Sản phẩm thấp nhất (\$7.99) ở đầu \\
+	\hline
+	\textbf{TC-SORT-BVA2} & FR-04.4 / EP & Đã đăng nhập standard\_\allowbreak{}user; đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn Price (high to low) \newline 2. Kiểm tra vị trí đầu & Sản phẩm cao nhất (\$49.99) ở đầu \\
+	\hline
+	\textbf{TC-SORT-BVA3} & FR-04.1 / EP & Đã đăng nhập standard\_\allowbreak{}user; đủ 6 sản phẩm & 6 sản phẩm & 1. Chọn Name (A to Z) \newline 2. Kiểm tra sản phẩm giữa & Sản phẩm giữa thỏa mãn thứ tự alphabet \\
+	\hline
+	\textbf{TC-NFR-01} & NFR-01 / Perf & Đăng nhập performance\_\allowbreak{}glitch\_\allowbreak{}user & performance\_\allowbreak{}glitch\_\allowbreak{}user / secret\_\allowbreak{}sauce & 1. Đăng nhập \newline 2. Đo thời gian load \newline 3. Lặp 5 lần, tính trung vị & Trung vị thời gian load $\leq$ 3 giây \\
+	\hline
 \end{longtable}
-\normalsize
+\endgroup

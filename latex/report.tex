@@ -87,11 +87,11 @@
 \hline
 1 & TV1 & 3123410171 & Nguyễn Nhật Đăng Khoa & Trưởng nhóm; NV1, FR-01 (đăng nhập) \\
 \hline
-2 & TV2 & 3123560056 & Nguyễn Thành Nhân & NV1, FR-02 (giỏ hàng) \\
+2 & TV2 & 3123560056 & Nguyễn Thành Nhân & FR-02 (giỏ hàng) \\
 \hline
 3 & TV3 & 3124410140 & Trương Gia Khải & FR-03.1, FR-03.2, phát hiện BUG-03 \\
 \hline
-4 & TV4 & -- & Thanh Sinh & FR-03.3 $\rightarrow$ FR-03.6 \\
+4 & TV4 & 3123560056 & Tạ Thanh Sinh & FR-03.3 $\rightarrow$ FR-03.6 \\
 \hline
 5 & TV5 & 3122410136 & Nguyễn Đình Hùng & FR-04, NFR-01, tổng hợp báo cáo \\
 \hline
@@ -102,7 +102,7 @@
 
 {\large \textbf{Giáo viên hướng dẫn: Thạc sĩ Từ Lãng Phiêu}}\\[0.8cm]
 {\large \textbf{Đơn vị kiểm thử: SauceDemo -- \texttt{https://www.saucedemo.com}}}\\[0.3cm]
-{\large \textbf{Ngày nộp báo cáo: 21/10/2026}}\\[1.6cm]
+{\large \textbf{Ngày nộp báo cáo: 29/10/2026}}\\[1.6cm]
 
 \vfill
 {\small Học kỳ 1, niên khóa 2026--2027}
@@ -188,7 +188,6 @@ Framework test & JUnit 5 (Jupiter) 5.11.4, Maven Surefire 3.5.2 \\
 Công cụ trình duyệt & Selenium WebDriver 4.51.0 \\
 Trình duyệt & Google Chrome 153.0.8010.36, hệ điều hành Windows 11 \\
 Mô hình thiết kế & Page Object Pattern, \texttt{WebDriverWait} (explicit wait) \\
-Báo cáo test & \texttt{target/surefire-reports/*.xml}, \texttt{*.txt} \\
 Bằng chứng & Thư mục \texttt{evidence/} (ảnh chụp màn hình, video quay lỗi) \\
 \bottomrule
 \end{tabular}
@@ -208,9 +207,9 @@ Bằng chứng & Thư mục \texttt{evidence/} (ảnh chụp màn hình, video q
 \textbf{Mã TV} & \textbf{MSSV} & \textbf{Họ tên} & \textbf{Phần việc chính} & \textbf{Số TC} \\
 \midrule
 TV1 & 3123410171 & Nguyễn Nhật Đăng Khoa & Trưởng nhóm; NV1, thiết kế DT cho FR-01, thực thi và bằng chứng FR-01 & 8 \\
-TV2 & -- & Thành Nhân & NV1; thiết kế BVA cho FR-02, thực thi và bằng chứng FR-02 & 8 \\
+TV2 & 3123560056 & Nguyễn Thành Nhân & Thiết kế BVA cho FR-02, thực thi và bằng chứng FR-02 & 8 \\
 TV3 & 3124410140 & Trương Gia Khải & UC cho FR-03.1--FR-03.2; phát hiện và báo lỗi BUG-03 & 7 (+1 lỗi) \\
-TV4 & 3123560056 & Nguyễn Thanh Sinh & UC cho FR-03.3--FR-03.6: tổng tiền, hoàn tất đơn, huỷ, nhiều sản phẩm & 4 \\
+TV4 & 3123560056 & Tạ Thanh Sinh & UC cho FR-03.3--FR-03.6: tổng tiền, hoàn tất đơn, huỷ, nhiều sản phẩm & 4 \\
 TV5 & 3122410136 & Nguyễn Đình Hùng & EP/BVA cho FR-04, đo NFR-01, phát hiện BUG-01, tổng hợp báo cáo & 9 \\
 \midrule
 \multicolumn{4}{r}{\textbf{Tổng cộng}} & \textbf{36} \\
@@ -227,8 +226,8 @@ Mã nguồn mẫu được cung cấp sẵn với cấu trúc Maven, dùng JUnit
 Sau khi cài Selenium Manager tự tải driver tương thích, lệnh \texttt{mvn clean test} chạy thành công:
 
 \begin{verbatim}
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
-[INFO] BUILD SUCCESS
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS5
 \end{verbatim}
 
 \subsection{Các mở rộng do nhóm thực hiện}
@@ -256,6 +255,15 @@ Sau khi cài Selenium Manager tự tải driver tương thích, lệnh \texttt{m
 \caption{Bằng chứng phiên bản Chrome dùng để thực thi NV1 (evidence/Setup/Chrome-Version.png).}
 \label{fig:nv1-chrome}
 \end{figure}
+
+\subsection{Vai trò của các annotation trong JUnit 5}
+Trong quá trình phát triển và mở rộng mã kiểm thử, nhóm đã sử dụng một số annotation quan trọng của JUnit 5 nhằm tối ưu hóa việc quản lý vòng đời test và kiểm thử theo dữ liệu:
+
+\begin{itemize}
+	\item \textbf{\texttt{@BeforeEach}}: Được sử dụng để định nghĩa phương thức chạy trước mỗi hàm test (\texttt{@Test}). Trong mã nguồn, annotation này đảm nhận việc khởi tạo trình duyệt, cấu hình môi trường và mở trang web cơ sở (baseUrl) giúp các test case độc lập và tránh lặp lại mã nguồn khởi tạo.
+	\item \textbf{\texttt{@ParameterizedTest}}: Cho phép thực thi một phương thức kiểm thử nhiều lần với các tập dữ liệu khác nhau. Điều này giúp nhóm kiểm tra nhanh chóng nhiều kịch bản (ví dụ: các trường hợp đăng nhập hợp lệ và không hợp lệ) chỉ với một đoạn mã kiểm thử duy nhất.
+	\item \textbf{\texttt{@CsvFileSource}}: Kết hợp với \texttt{@ParameterizedTest} để nạp dữ liệu kiểm thử trực tiếp từ các tệp tin dạng CSV (chẳng hạn như tệp \texttt{login-data.csv}). Việc này giúp tách biệt rõ ràng giữa logic kiểm thử và dữ liệu kiểm thử, dễ dàng mở rộng và bảo trì dữ liệu đầu vào.
+\end{itemize}
 
 % ============================================================
 \section{NV2 -- Phân tích yêu cầu}
@@ -442,9 +450,9 @@ Một số hình ảnh bằng chứng tiêu biểu cho từng nhóm yêu cầu �
 \textbf{Nhóm test} & \textbf{Người thực hiện} & \textbf{Số lần chạy} & \textbf{Pass} & \textbf{Fail} & \textbf{Lỗi phát hiện} \\
 \midrule
 FR-01 (LoginTest) & Nguyễn Nhật Đăng Khoa & 8 & 8 & 0 & -- \\
-FR-02 (CartTest) & Thành Nhân & 8 & 8 & 0 & -- \\
+FR-02 (CartTest) & Nguyễn Thành Nhân & 8 & 8 & 0 & -- \\
 FR-03 (CheckoutTest) & Trương Gia Khải & 8 & 7 & 1 & BUG-03 \\
-FR-03 (CheckoutTest) & Thanh Sinh & 4 & 4 & 0 & -- \\
+FR-03 (CheckoutTest) & Tạ Thanh Sinh & 4 & 4 & 0 & -- \\
 FR-04 + NFR-01 (SortTest, PerformanceTest) & Nguyễn Đình Hùng & 9 & 8 & 1 & BUG-01 \\
 \midrule
 \multicolumn{2}{r}{\textbf{Tổng cộng}} & \textbf{37} & \textbf{35} & \textbf{2} & \textbf{2 lỗi} \\
@@ -732,9 +740,9 @@ group-XX-assignment1/
 |   |       +-- PerformanceTest.java
 |   +-- src/test/resources/
 |       +-- login-data.csv
-+-- evidence/            (anh chup man hinh, video loi)
-+-- latex/               (bao cao LaTeX)
-+-- test-cases.xlsx      (tep Excel test case)
++-- evidence/            (ảnh chụp màn hình, video lỗi)
++-- report.pdf			 (báo cáo pdf)
++-- test-cases.xlsx      (báo cáo Excel)
 \end{verbatim}
 
 \subsection*{C. Cách chạy test}
@@ -754,13 +762,6 @@ mvn test -Dtest=PerformanceTest
 
 # Chay tren Firefox voi he thong khac
 mvn test -Dbrowser=firefox -DbaseUrl=http://localhost:8080 -Dheadless=true
-\end{verbatim}
-
-\subsection*{D. Sinh lại các bảng trong báo cáo}
-Các bảng trong mục 3.1, 3.3, 4.8 và 5.2 được sinh tự động từ tệp \texttt{test-cases.xlsx}
-bằng script Python, nên dữ liệu trong báo cáo luôn khớp với tệp Excel nộp kèm:
-\begin{verbatim}
-python3 latex/gen_tables.py
 \end{verbatim}
 
 \end{document}
