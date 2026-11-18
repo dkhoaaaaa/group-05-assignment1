@@ -61,6 +61,14 @@ def esc(text):
     return "".join(out)
 
 
+TC_ID = re.compile(r"TC-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\.[0-9]+)?(?:--[0-9]+\.[0-9]+)?")
+
+
+def nobreak_ids(latex):
+    """Bọc mã test case (TC-...) trong \\mbox để không bị ngắt giữa mã."""
+    return TC_ID.sub(lambda m: r"\mbox{" + m.group(0) + "}", latex)
+
+
 def cell(text, mode="p"):
     """Chuẩn bị nội dung một ô: xuống dòng -> \newline, chuẩn hóa khoảng trắng."""
     if text is None:
@@ -71,8 +79,8 @@ def cell(text, mode="p"):
     if not parts:
         return ""
     if mode == "l":
-        return r" \\ ".join(esc(p) for p in parts)
-    return r" \newline ".join(esc(p) for p in parts)
+        return nobreak_ids(r" \\ ".join(esc(p) for p in parts))
+    return nobreak_ids(r" \newline ".join(esc(p) for p in parts))
 
 
 def rows(ws, start=2):
@@ -89,139 +97,115 @@ def write(name, content):
     print("wrote", path)
 
 
+def longtable(caption, label, colspec, header, body_rows, size=r"\small",
+              tabcolsep="4pt"):
+    """Dựng một longtable có header tô nền, lặp lại ở mỗi trang."""
+    hdr = " & ".join(r"\textbf{" + h + "}" for h in header)
+    out = [
+        r"{" + size,
+        r"\setlength{\tabcolsep}{" + tabcolsep + "}",
+        r"\renewcommand{\arraystretch}{1.25}",
+        r"\arrayrulecolor{black!55}",
+        r"\begin{longtable}{" + colspec + "}",
+        r"\caption{" + caption + r"}",
+        r"\label{" + label + r"} \\",
+        r"\hline",
+        r"\rowcolor{tablehead} " + hdr + r" \\",
+        r"\hline",
+        r"\endfirsthead",
+        r"\multicolumn{" + str(len(header)) + r"}{@{}l}{\small\itshape "
+        r"(tiếp bảng ở trang trước)} \\",
+        r"\hline",
+        r"\rowcolor{tablehead} " + hdr + r" \\",
+        r"\hline",
+        r"\endhead",
+        r"\hline",
+        r"\endfoot",
+        r"\hline",
+        r"\endlastfoot",
+    ]
+    for row in body_rows:
+        out.append(row + r" \\")
+        out.append(r"\hline")
+    out.append(r"\end{longtable}")
+    out.append(r"}")
+    return "\n".join(out) + "\n"
+
+
 def gen_requirements(wb):
     ws = wb["Requirements"]
     body = []
-    body.append(r"\small")
-    body.append(r"\setlength{\tabcolsep}{4pt}")
-    body.append(r"\begin{longtable}{|p{1.9cm}|p{5.6cm}|c|c|c|p{1.8cm}|}")
-    body.append(r"\caption{Đặc tả yêu cầu chức năng và phi chức năng kèm đánh giá rủi ro}")
-    body.append(r"\label{tab:requirements} \\")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & "
-        r"\textbf{R} & \textbf{Mức rủi ro} \\")
-    body.append(r"\hline")
-    body.append(r"\endfirsthead")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & "
-        r"\textbf{R} & \textbf{Mức rủi ro} \\")
-    body.append(r"\hline")
-    body.append(r"\endhead")
-    body.append(r"\hline \endfoot")
     for r in rows(ws):
         code, desc, p, i, risk = r[0], r[1], r[2], r[3], r[4]
         level = "Cao" if risk >= 10 else ("Trung bình" if risk >= 6 else "Thấp")
-        body.append(
-            "{} & {} & {} & {} & {} & {} \\\\".format(
-                esc(code), cell(desc), esc(p), esc(i), esc(risk), esc(level)))
-        body.append(r"\hline")
-    body.append(r"\end{longtable}")
-    body.append(r"\normalsize")
-    write("gen_requirements.tex", "\n".join(body) + "\n")
+        body.append(" & ".join([
+            esc(code), cell(desc), esc(p), esc(i), esc(risk), esc(level)]))
+    write("gen_requirements.tex", longtable(
+        "Đặc tả yêu cầu chức năng và phi chức năng kèm đánh giá rủi ro",
+        "tab:requirements",
+        r"|L{1.7cm}|L{8.0cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|L{2.3cm}|",
+        ["Mã", "Mô tả yêu cầu", "P", "I", "R", "Mức rủi ro"], body))
 
 
 def gen_traceability(wb):
     ws = wb["Traceability"]
     body = []
-    body.append(r"\small")
-    body.append(r"\setlength{\tabcolsep}{4pt}")
-    body.append(r"\begin{longtable}{|p{1.5cm}|p{1.5cm}|p{5.3cm}|p{1.2cm}|p{2.7cm}|}")
-    body.append(r"\caption{Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case}")
-    body.append(r"\label{tab:traceability} \\")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & "
-        r"\textbf{Lỗi} & \textbf{Lớp test} \\")
-    body.append(r"\hline")
-    body.append(r"\endfirsthead")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & "
-        r"\textbf{Lỗi} & \textbf{Lớp test} \\")
-    body.append(r"\hline")
-    body.append(r"\endhead")
-    body.append(r"\hline \endfoot")
     for r in rows(ws):
         req, tech, tcs, bug, layer = r[0], r[1], r[2], r[3], r[4]
         bug = "--" if not bug else bug
-        body.append(
-            "{} & {} & {} & {} & {} \\\\".format(
-                esc(req), esc(tech), cell(tcs), esc(bug), esc(layer)))
-        body.append(r"\hline")
-    body.append(r"\end{longtable}")
-    write("gen_traceability.tex", "\n".join(body) + "\n")
+        body.append(" & ".join([
+            esc(req), esc(tech), cell(tcs), esc(bug), esc(layer)]))
+    write("gen_traceability.tex", longtable(
+        r"Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case",
+        "tab:traceability",
+        r"|L{1.8cm}|L{2.2cm}|L{5.3cm}|L{1.4cm}|L{3.8cm}|",
+        ["Yêu cầu", "Kỹ thuật", "Test case", "Lỗi", "Lớp test"], body))
 
 
 def gen_testcases(wb):
+    """Bảng 6 cột, rất rộng -> đặt trong trang A4 nằm ngang."""
     ws = wb["TestCases"]
     body = []
-    body.append(r"\small")
-    body.append(r"\setlength{\tabcolsep}{3pt}")
-    body.append(
-        r"\begin{longtable}{|p{2.0cm}|p{1.4cm}|p{2.25cm}|p{2.05cm}|p{2.75cm}|p{3.2cm}|}")
-    body.append(r"\caption{Bảng test case chi tiết của toàn nhóm (36 test case)}")
-    body.append(r"\label{tab:all-tc} \\")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & "
-        r"\textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\")
-    body.append(r"\hline")
-    body.append(r"\endfirsthead")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{TC ID} & \textbf{Y/cầu} & \textbf{Tiền điều kiện} & "
-        r"\textbf{Dữ liệu} & \textbf{Bước thực hiện} & \textbf{Kết quả mong đợi} \\")
-    body.append(r"\hline")
-    body.append(r"\endhead")
-    body.append(r"\hline \endfoot")
     for r in rows(ws):
         tc_id = str(r[0]).split(":")[0].strip()
-        body.append(
-            "\\textbf{{{}}} & {} & {} & {} & {} & {} \\\\".format(
-                esc(tc_id), cell(r[1]), cell(r[2]), cell(r[3]), cell(r[4]),
-                cell(r[5])))
-        body.append(r"\hline")
-    body.append(r"\end{longtable}")
-    body.append(r"\normalsize")
-    write("gen_testcases.tex", "\n".join(body) + "\n")
+        body.append(" & ".join([
+            r"\textbf{" + nobreak_ids(esc(tc_id)) + "}",
+            cell(r[1]), cell(r[2]), cell(r[3]), cell(r[4]), cell(r[5])]))
+    table = longtable(
+        "Bảng test case chi tiết của toàn nhóm (36 test case)",
+        "tab:all-tc",
+        r"|L{3.5cm}|L{1.9cm}|L{4.6cm}|L{3.7cm}|L{5.1cm}|L{5.1cm}|",
+        ["TC ID", "Y/cầu", "Tiền điều kiện", "Dữ liệu", "Bước thực hiện",
+         "Kết quả mong đợi"], body, size=r"\footnotesize", tabcolsep="3pt")
+    write("gen_testcases.tex",
+          "\\clearpage\n"
+          "\\newgeometry{width=25.7cm, height=16.6cm, left=2.0cm, top=2.2cm, "
+          "headheight=14.5pt, headsep=0.6cm, footskip=0.9cm}\n"
+          "\\paperwidth=29.7cm \\paperheight=21cm\n"
+          "\\pdfpagewidth=\\paperwidth \\pdfpageheight=\\paperheight\n"
+          + table + "\\clearpage\n\\restoregeometry\n"
+          "\\paperwidth=21cm \\paperheight=29.7cm\n"
+          "\\pdfpagewidth=\\paperwidth \\pdfpageheight=\\paperheight\n")
 
 
 def gen_execution(wb):
     ws = wb["Execution"]
     body = []
-    body.append(r"\small")
-    body.append(r"\setlength{\tabcolsep}{3pt}")
-    body.append(
-        r"\begin{longtable}{|p{2.0cm}|p{2.7cm}|p{2.9cm}|p{4.9cm}|p{1.6cm}|}")
-    body.append(r"\caption{Kết quả thực thi test case thủ công (NV4)}")
-    body.append(r"\label{tab:execution} \\")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Mã TC} & \textbf{Ngày / Người thực hiện} & \textbf{Môi trường} & "
-        r"\textbf{Kết quả thực tế} & \textbf{Trạng thái} \\")
-    body.append(r"\hline")
-    body.append(r"\endfirsthead")
-    body.append(r"\hline")
-    body.append(
-        r"\textbf{Mã TC} & \textbf{Ngày / Người thực hiện} & \textbf{Môi trường} & "
-        r"\textbf{Kết quả thực tế} & \textbf{Trạng thái} \\")
-    body.append(r"\hline")
-    body.append(r"\endhead")
-    body.append(r"\hline \endfoot")
     for r in rows(ws):
         tc_id, who, env, actual, status = r[0], r[1], r[2], r[3], r[4]
         st = esc(status)
         if st and "Fail" in st:
-            st = r"\textbf{" + st + "}"
-        body.append(
-            "{} & {} & {} & {} & {} \\\\".format(
-                esc(tc_id), cell(who), cell(env), cell(actual), st))
-        body.append(r"\hline")
-    body.append(r"\end{longtable}")
-    body.append(r"\normalsize")
-    write("gen_execution.tex", "\n".join(body) + "\n")
+            st = r"\textcolor{failred}{\textbf{" + st + "}}"
+        elif st and "Pass" in st:
+            st = r"\textcolor{passgreen}{" + st + "}"
+        body.append(" & ".join([
+            nobreak_ids(esc(tc_id)), cell(who), cell(env), cell(actual), st]))
+    write("gen_execution.tex", longtable(
+        "Kết quả thực thi test case thủ công (NV4)",
+        "tab:execution",
+        r"|L{3.4cm}|L{2.6cm}|L{2.6cm}|L{4.7cm}|L{1.4cm}|",
+        ["Mã TC", "Ngày / Người thực hiện", "Môi trường", "Kết quả thực tế",
+         "Trạng thái"], body))
 
 
 def main():
