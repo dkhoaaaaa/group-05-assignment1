@@ -1,17 +1,23 @@
-\small
+{\small
 \setlength{\tabcolsep}{4pt}
-\begin{longtable}{|p{1.9cm}|p{5.6cm}|c|c|c|p{1.8cm}|}
+\renewcommand{\arraystretch}{1.25}
+\arrayrulecolor{black!55}
+\begin{longtable}{|L{1.7cm}|L{8.0cm}|C{0.8cm}|C{0.8cm}|C{0.8cm}|L{2.3cm}|}
 \caption{Đặc tả yêu cầu chức năng và phi chức năng kèm đánh giá rủi ro}
 \label{tab:requirements} \\
 \hline
-\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
+\rowcolor{tablehead} \textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
 \hline
 \endfirsthead
+\multicolumn{6}{@{}l}{\small\itshape (tiếp bảng ở trang trước)} \\
 \hline
-\textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
+\rowcolor{tablehead} \textbf{Mã} & \textbf{Mô tả yêu cầu} & \textbf{P} & \textbf{I} & \textbf{R} & \textbf{Mức rủi ro} \\
 \hline
 \endhead
-\hline \endfoot
+\hline
+\endfoot
+\hline
+\endlastfoot
 FR-01.1 & Hệ thống cho phép đăng nhập thành công với tài khoản hợp lệ (username phân biệt hoa/thường). & 2 & 4 & 8 & Trung bình \\
 \hline
 FR-01.2 & Hệ thống hiển thị lỗi "Username is required" khi bỏ trống user, hoặc "Password is required" khi bỏ trống pass. & 3 & 3 & 9 & Trung bình \\
@@ -45,4 +51,4 @@ FR-04.4 & Hệ thống cho phép sắp xếp danh sách sản phẩm theo giá g
 NFR-01 & Thời gian load trang inventory phải $\leq$ 3 giây (trung vị của 5 lần đo) với tài khoản standard\_\allowbreak{}user. & 1 & 5 & 5 & Thấp \\
 \hline
 \end{longtable}
-\normalsize
+}

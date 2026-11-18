@@ -1,45 +1,52 @@
-\small
+{\small
 \setlength{\tabcolsep}{4pt}
-\begin{tabularx}{\textwidth}{|>{\RaggedRight\arraybackslash}p{1.4cm}|>{\RaggedRight\arraybackslash}p{1.8cm}|>{\RaggedRight\arraybackslash}X|>{\Centering\arraybackslash}p{1.0cm}|>{\RaggedRight\arraybackslash}p{2.3cm}|}
-	\caption{Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case}
-	\label{tab:traceability} \\
-	\hline
-	\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
-	\hline
-	\endfirsthead
-	\hline
-	\textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
-	\hline
-	\endhead
-	\hline \endfoot
-	FR-01.2 & DT & TC-LOGIN-DT1, TC-LOGIN-DT2, TC-LOGIN-DT3 & -- & LoginTest.java \\
-	\hline
-	FR-01.3 & DT & TC-LOGIN-DT4, TC-LOGIN-DT5, TC-LOGIN-DT7 & -- & LoginTest.java \\
-	\hline
-	FR-01.1 & DT & TC-LOGIN-DT6, TC-LOGIN-DT8 & -- & LoginTest.java \\
-	\hline
-	FR-02 & BVA & TC-CART-BVA-01, TC-CART-BVA-02, TC-CART-BVA-03, TC-CART-BVA-04, TC-CART-BVA-05, TC-CART-BVA-06, TC-CART-BVA-07, TC-CART-BVA-08 & -- & CartTest.java \\
-	\hline
-	FR-03.1 & UC & TC-CHK-01, TC-CHK-02.1, TC-CHK-02.2, TC-CHK-02.3, TC-CHK-02.4, TC-CHK-02.5 & -- & CheckoutTest.java \\
-	\hline
-	FR-03.2 & UC & TC-CHK-03 & -- & CheckoutTest.java \\
-	\hline
-	FR-03.3 & UC & TC-CHK-04 & -- & CheckoutTest.java \\
-	\hline
-	FR-03.4 & UC & TC-CHK-05 & -- & CheckoutTest.java \\
-	\hline
-	FR-03.5 & UC & TC-CHK-06 & -- & CheckoutTest.java \\
-	\hline
-	FR-03.6 & UC & TC-CHK-07 & -- & CheckoutTest.java \\
-	\hline
-	FR-04.1 & EP & TC-SORT-EP1, TC-SORT-EP2 & -- & SortTest.java \\
-	\hline
-	FR-04.2 & EP & TC-SORT-EP3, TC-SORT-EP4 & -- & SortTest.java \\
-	\hline
-	FR-04.3 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2, TC-SORT-BVA3 & -- & SortTest.java \\
-	\hline
-	FR-04.4 & EP, BVA & TC-SORT-BVA1, TC-SORT-BVA2 & -- & SortTest.java \\
-	\hline
-	NFR-01 & Performance & TC-NFR-01 & BUG-01 & PerformanceTest.java \\
-	\hline
-\end{tabularx}
+\renewcommand{\arraystretch}{1.25}
+\arrayrulecolor{black!55}
+\begin{longtable}{|L{1.8cm}|L{2.2cm}|L{5.3cm}|L{1.4cm}|L{3.8cm}|}
+\caption{Ma trận truy vết yêu cầu $\rightarrow$ kỹ thuật $\rightarrow$ test case}
+\label{tab:traceability} \\
+\hline
+\rowcolor{tablehead} \textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
+\hline
+\endfirsthead
+\multicolumn{5}{@{}l}{\small\itshape (tiếp bảng ở trang trước)} \\
+\hline
+\rowcolor{tablehead} \textbf{Yêu cầu} & \textbf{Kỹ thuật} & \textbf{Test case} & \textbf{Lỗi} & \textbf{Lớp test} \\
+\hline
+\endhead
+\hline
+\endfoot
+\hline
+\endlastfoot
+FR-01.2 & DT & \mbox{TC-LOGIN-DT1}, \mbox{TC-LOGIN-DT2}, \mbox{TC-LOGIN-DT3} & -- & LoginTest.java \\
+\hline
+FR-01.3 & DT & \mbox{TC-LOGIN-DT4}, \mbox{TC-LOGIN-DT5}, \mbox{TC-LOGIN-DT7} & -- & LoginTest.java \\
+\hline
+FR-01.1 & DT & \mbox{TC-LOGIN-DT6}, \mbox{TC-LOGIN-DT8} & -- & LoginTest.java \\
+\hline
+FR-02 & BVA & \mbox{TC-CART-BVA-01}, \mbox{TC-CART-BVA-02}, \mbox{TC-CART-BVA-03}, \mbox{TC-CART-BVA-04}, \mbox{TC-CART-BVA-05}, \mbox{TC-CART-BVA-06}, \mbox{TC-CART-BVA-07}, \mbox{TC-CART-BVA-08} & -- & CartTest.java \\
+\hline
+FR-03.1 & UC & \mbox{TC-CHK-01}, \mbox{TC-CHK-02.1}, \mbox{TC-CHK-02.2}, \mbox{TC-CHK-02.3}, \mbox{TC-CHK-02.4}, \mbox{TC-CHK-02.5} & -- & CheckoutTest.java \\
+\hline
+FR-03.2 & UC & \mbox{TC-CHK-03} & -- & CheckoutTest.java \\
+\hline
+FR-03.3 & UC & \mbox{TC-CHK-04} & -- & CheckoutTest.java \\
+\hline
+FR-03.4 & UC & \mbox{TC-CHK-05} & -- & CheckoutTest.java \\
+\hline
+FR-03.5 & UC & \mbox{TC-CHK-06} & -- & CheckoutTest.java \\
+\hline
+FR-03.6 & UC & \mbox{TC-CHK-07} & -- & CheckoutTest.java \\
+\hline
+FR-04.1 & EP & \mbox{TC-SORT-EP1}, \mbox{TC-SORT-EP2} & -- & SortTest.java \\
+\hline
+FR-04.2 & EP & \mbox{TC-SORT-EP3}, \mbox{TC-SORT-EP4} & -- & SortTest.java \\
+\hline
+FR-04.3 & EP, BVA & \mbox{TC-SORT-BVA1}, \mbox{TC-SORT-BVA2}, \mbox{TC-SORT-BVA3} & -- & SortTest.java \\
+\hline
+FR-04.4 & EP, BVA & \mbox{TC-SORT-BVA1}, \mbox{TC-SORT-BVA2} & -- & SortTest.java \\
+\hline
+NFR-01 & Performance & \mbox{TC-NFR-01} & BUG-01 & PerformanceTest.java \\
+\hline
+\end{longtable}
+}
