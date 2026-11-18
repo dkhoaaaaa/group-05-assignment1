@@ -2,7 +2,6 @@ package vn.edu.softwaretesting.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -24,23 +23,24 @@ class LoginTest extends WebTestBase {
         loginPage = new LoginPage(driver, baseUrl).open();
     }
 
-    @ParameterizedTest(name = "TC-LOGIN-{index}: user={0}, accepted={2}")
+    @ParameterizedTest(name = "{0}: user=''{1}'', accepted={3}")
+    @DisplayName("TC-LOGIN-DT: Kiểm thử đăng nhập theo bảng quyết định")
     @CsvFileSource(resources = "/login-data.csv", numLinesToSkip = 1)
-    void loginShouldMatchExpectedOutcome(
+    void loginDecisionTableTests(
+            String testCaseId,
             String username,
             String password,
             boolean expectedAccepted,
             String expectedEvidence) {
 
-        LoginResult actual = loginPage.login(username, password);
+        LoginResult actual = loginPage.login(username == null ? "" : username, password == null ? "" : password);
 
         assertEquals(expectedAccepted, actual.accepted(),
-                () -> "Unexpected result for user: " + username);
+                () -> testCaseId + ": Kết quả accepted không khớp cho user: " + username);
         assertTrue(
                 actual.currentUrl().contains(expectedEvidence)
                         || actual.message().contains(expectedEvidence),
-                () -> "Expected evidence '" + expectedEvidence
-                        + "', but URL/message was: "
-                        + actual.currentUrl() + " / " + actual.message());
+                () -> testCaseId + ": Không tìm thấy expected evidence '" + expectedEvidence
+                        + "'. Thực tế: URL=" + actual.currentUrl() + ", Message=" + actual.message());
     }
 }
