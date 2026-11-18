@@ -29,15 +29,15 @@ public class PerformanceTest extends WebTestBase {
     private LoginPage loginPage;
     private InventoryPage inventoryPage;
 
-    @BeforeEach
+    @BeforeEach//Chạy trước mỗi Test Case
     void initPages() {
         loginPage = new LoginPage(driver, baseUrl);
         inventoryPage = new InventoryPage(driver);
     }
 
-    @Test
-    @DisplayName("TC-NFR-01: Đo thời gian load trang inventory (performance_glitch_user)")
-    @Timeout(300)
+    @Test//Đánh dấu một Test Case
+    @DisplayName("TC-NFR-01: Đo thời gian load trang inventory (performance_glitch_user)")//Đặt tên hiển thị cho Test Case
+    @Timeout(300)//Giới hạn thời gian chạy Test Case
     void testInventoryPageLoadTime() {
         List<Double> loadTimes = new ArrayList<>();
 
